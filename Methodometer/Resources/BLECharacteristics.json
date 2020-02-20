@@ -1,0 +1,938 @@
+[
+    {
+        "name": "Aerobic Heart Rate Lower Limit",
+        "assignedNumber": "2A7E"
+    },
+    {
+        "name": "Aerobic Heart Rate Upper Limit",
+        "assignedNumber": "2A84"
+    },
+    {
+        "name": "Aerobic Threshold",
+        "assignedNumber": "2A7F"
+    },
+    {
+        "name": "Age",
+        "assignedNumber": "2A80"
+    },
+    {
+        "name": "Aggregate",
+        "assignedNumber": "2A5A"
+    },
+    {
+        "name": "Alert Category ID",
+        "assignedNumber": "2A43"
+    },
+    {
+        "name": "Alert Category ID Bit Mask",
+        "assignedNumber": "2A42"
+    },
+    {
+        "name": "Alert Level",
+        "assignedNumber": "2A06"
+    },
+    {
+        "name": "Alert Notification Control Point",
+        "assignedNumber": "2A44"
+    },
+    {
+        "name": "Alert Status",
+        "assignedNumber": "2A3F"
+    },
+    {
+        "name": "Altitude",
+        "assignedNumber": "2AB3"
+    },
+    {
+        "name": "Anaerobic Heart Rate Lower Limit",
+        "assignedNumber": "2A81"
+    },
+    {
+        "name": "Anaerobic Heart Rate Upper Limit",
+        "assignedNumber": "2A82"
+    },
+    {
+        "name": "Anaerobic Threshold",
+        "assignedNumber": "2A83"
+    },
+    {
+        "name": "Analog",
+        "assignedNumber": "2A58"
+    },
+    {
+        "name": "Analog Output",
+        "assignedNumber": "2A59"
+    },
+    {
+        "name": "Apparent Wind Direction",
+        "assignedNumber": "2A73"
+    },
+    {
+        "name": "Apparent Wind Speed",
+        "assignedNumber": "2A72"
+    },
+    {
+        "name": "Appearance",
+        "assignedNumber": "2A01"
+    },
+    {
+        "name": "Barometric Pressure Trend",
+        "assignedNumber": "2AA3"
+    },
+    {
+        "name": "Battery Level",
+        "assignedNumber": "2A19"
+    },
+    {
+        "name": "Battery Level State",
+        "assignedNumber": "2A1B"
+    },
+    {
+        "name": "Battery Power State",
+        "assignedNumber": "2A1A"
+    },
+    {
+        "name": "Blood Pressure Feature",
+        "assignedNumber": "2A49"
+    },
+    {
+        "name": "Blood Pressure Measurement",
+        "assignedNumber": "2A35"
+    },
+    {
+        "name": "Body Composition Feature",
+        "assignedNumber": "2A9B"
+    },
+    {
+        "name": "Body Composition Measurement",
+        "assignedNumber": "2A9C"
+    },
+    {
+        "name": "Body Sensor Location",
+        "assignedNumber": "2A38"
+    },
+    {
+        "name": "Bond Management Control Point",
+        "assignedNumber": "2AA4"
+    },
+    {
+        "name": "Bond Management Features",
+        "assignedNumber": "2AA5"
+    },
+    {
+        "name": "Boot Keyboard Input Report",
+        "assignedNumber": "2A22"
+    },
+    {
+        "name": "Boot Keyboard Output Report",
+        "assignedNumber": "2A32"
+    },
+    {
+        "name": "Boot Mouse Input Report",
+        "assignedNumber": "2A33"
+    },
+    {
+        "name": "BSS Control Point",
+        "assignedNumber": "2B2B"
+    },
+    {
+        "name": "BSS Response",
+        "assignedNumber": "2B2C"
+    },
+    {
+        "name": "CGM Feature",
+        "assignedNumber": "2AA8"
+    },
+    {
+        "name": "CGM Measurement",
+        "assignedNumber": "2AA7"
+    },
+    {
+        "name": "CGM Session Run Time",
+        "assignedNumber": "2AAB"
+    },
+    {
+        "name": "CGM Session Start Time",
+        "assignedNumber": "2AAA"
+    },
+    {
+        "name": "CGM Specific Ops Control Point",
+        "assignedNumber": "2AAC"
+    },
+    {
+        "name": "CGM Status",
+        "assignedNumber": "2AA9"
+    },
+    {
+        "name": "Client Supported Features",
+        "assignedNumber": "2B29"
+    },
+    {
+        "name": "Cross Trainer Data",
+        "assignedNumber": "2ACE"
+    },
+    {
+        "name": "CSC Feature",
+        "assignedNumber": "2A5C"
+    },
+    {
+        "name": "CSC Measurement",
+        "assignedNumber": "2A5B"
+    },
+    {
+        "name": "Current Time",
+        "assignedNumber": "2A2B"
+    },
+    {
+        "name": "Cycling Power Control Point",
+        "assignedNumber": "2A66"
+    },
+    {
+        "name": "Cycling Power Feature",
+        "assignedNumber": "2A65"
+    },
+    {
+        "name": "Cycling Power Measurement",
+        "assignedNumber": "2A63"
+    },
+    {
+        "name": "Cycling Power Vector",
+        "assignedNumber": "2A64"
+    },
+    {
+        "name": "Database Change Increment",
+        "assignedNumber": "2A99"
+    },
+    {
+        "name": "Database Hash",
+        "assignedNumber": "2B2A"
+    },
+    {
+        "name": "DateBirth",
+        "assignedNumber": "2A85"
+    },
+    {
+        "name": "DateThreshold Assessment",
+        "assignedNumber": "2A86"
+    },
+    {
+        "name": "Date Time",
+        "assignedNumber": "2A08"
+    },
+    {
+        "name": "Date UTC",
+        "assignedNumber": "2AED"
+    },
+    {
+        "name": "Day Date Time",
+        "assignedNumber": "2A0A"
+    },
+    {
+        "name": "DayWeek",
+        "assignedNumber": "2A09"
+    },
+    {
+        "name": "Descriptor Value Changed",
+        "assignedNumber": "2A7D"
+    },
+    {
+        "name": "Dew Point",
+        "assignedNumber": "2A7B"
+    },
+    {
+        "name": "Digital",
+        "assignedNumber": "2A56"
+    },
+    {
+        "name": "Digital Output",
+        "assignedNumber": "2A57"
+    },
+    {
+        "name": "DST Offset",
+        "assignedNumber": "2A0D"
+    },
+    {
+        "name": "Elevation",
+        "assignedNumber": "2A6C"
+    },
+    {
+        "name": "Email Address",
+        "assignedNumber": "2A87"
+    },
+    {
+        "name": "Emergency ID",
+        "assignedNumber": "2B2D"
+    },
+    {
+        "name": "Emergency Text",
+        "assignedNumber": "2B2E"
+    },
+    {
+        "name": "Exact Time 100",
+        "assignedNumber": "2A0B"
+    },
+    {
+        "name": "Exact Time 256",
+        "assignedNumber": "2A0C"
+    },
+    {
+        "name": "Fat Burn Heart Rate Lower Limit",
+        "assignedNumber": "2A88"
+    },
+    {
+        "name": "Fat Burn Heart Rate Upper Limit",
+        "assignedNumber": "2A89"
+    },
+    {
+        "name": "Firmware Revision String",
+        "assignedNumber": "2A26"
+    },
+    {
+        "name": "First Name",
+        "assignedNumber": "2A8A"
+    },
+    {
+        "name": "Fitness Machine Control Point",
+        "assignedNumber": "2AD9"
+    },
+    {
+        "name": "Fitness Machine Feature",
+        "assignedNumber": "2ACC"
+    },
+    {
+        "name": "Fitness Machine Status",
+        "assignedNumber": "2ADA"
+    },
+    {
+        "name": "Five Zone Heart Rate Limits",
+        "assignedNumber": "2A8B"
+    },
+    {
+        "name": "Floor Number",
+        "assignedNumber": "2AB2"
+    },
+    {
+        "name": "Central Address Resolution",
+        "assignedNumber": "2AA6"
+    },
+    {
+        "name": "Device Name",
+        "assignedNumber": "2A00"
+    },
+    {
+        "name": "Peripheral Preferred Connection Parameters",
+        "assignedNumber": "2A04"
+    },
+    {
+        "name": "Peripheral Privacy Flag",
+        "assignedNumber": "2A02"
+    },
+    {
+        "name": "Reconnection Address",
+        "assignedNumber": "2A03"
+    },
+    {
+        "name": "Service Changed",
+        "assignedNumber": "2A05"
+    },
+    {
+        "name": "Gender",
+        "assignedNumber": "2A8C"
+    },
+    {
+        "name": "Glucose Feature",
+        "assignedNumber": "2A51"
+    },
+    {
+        "name": "Glucose Measurement",
+        "assignedNumber": "2A18"
+    },
+    {
+        "name": "Glucose Measurement Context",
+        "assignedNumber": "2A34"
+    },
+    {
+        "name": "Gust Factor",
+        "assignedNumber": "2A74"
+    },
+    {
+        "name": "Hardware Revision String",
+        "assignedNumber": "2A27"
+    },
+    {
+        "name": "Heart Rate Control Point",
+        "assignedNumber": "2A39"
+    },
+    {
+        "name": "Heart Rate Max",
+        "assignedNumber": "2A8D"
+    },
+    {
+        "name": "Heart Rate Measurement",
+        "assignedNumber": "2A37"
+    },
+    {
+        "name": "Heat Index",
+        "assignedNumber": "2A7A"
+    },
+    {
+        "name": "Height",
+        "assignedNumber": "2A8E"
+    },
+    {
+        "name": "HID Control Point",
+        "assignedNumber": "2A4C"
+    },
+    {
+        "name": "HID Information",
+        "assignedNumber": "2A4A"
+    },
+    {
+        "name": "Hip Circumference",
+        "assignedNumber": "2A8F"
+    },
+    {
+        "name": "HTTP Control Point",
+        "assignedNumber": "2ABA"
+    },
+    {
+        "name": "HTTP Entity Body",
+        "assignedNumber": "2AB9"
+    },
+    {
+        "name": "HTTP Headers",
+        "assignedNumber": "2AB7"
+    },
+    {
+        "name": "HTTP Status Code",
+        "assignedNumber": "2AB8"
+    },
+    {
+        "name": "HTTPS Security",
+        "assignedNumber": "2ABB"
+    },
+    {
+        "name": "Humidity",
+        "assignedNumber": "2A6F"
+    },
+    {
+        "name": "IDD Annunciation Status",
+        "assignedNumber": "2B22"
+    },
+    {
+        "name": "IDD Command Control Point",
+        "assignedNumber": "2B25"
+    },
+    {
+        "name": "IDD Command Data",
+        "assignedNumber": "2B26"
+    },
+    {
+        "name": "IDD Features",
+        "assignedNumber": "2B23"
+    },
+    {
+        "name": "IDD History Data",
+        "assignedNumber": "2B28"
+    },
+    {
+        "name": "IDD Record Access Control Point",
+        "assignedNumber": "2B27"
+    },
+    {
+        "name": "IDD Status",
+        "assignedNumber": "2B21"
+    },
+    {
+        "name": "IDD Status Changed",
+        "assignedNumber": "2B20"
+    },
+    {
+        "name": "IDD Status Reader Control Point",
+        "assignedNumber": "2B24"
+    },
+    {
+        "name": "IEEE 11073-20601 Regulatory Certification Data List",
+        "assignedNumber": "2A2A"
+    },
+    {
+        "name": "Indoor Bike Data",
+        "assignedNumber": "2AD2"
+    },
+    {
+        "name": "Indoor Positioning Configuration",
+        "assignedNumber": "2AAD"
+    },
+    {
+        "name": "Intermediate Cuff Pressure",
+        "assignedNumber": "2A36"
+    },
+    {
+        "name": "Intermediate Temperature",
+        "assignedNumber": "2A1E"
+    },
+    {
+        "name": "Irradiance",
+        "assignedNumber": "2A77"
+    },
+    {
+        "name": "Language",
+        "assignedNumber": "2AA2"
+    },
+    {
+        "name": "Last Name",
+        "assignedNumber": "2A90"
+    },
+    {
+        "name": "Latitude",
+        "assignedNumber": "2AAE"
+    },
+    {
+        "name": "LN Control Point",
+        "assignedNumber": "2A6B"
+    },
+    {
+        "name": "LN Feature",
+        "assignedNumber": "2A6A"
+    },
+    {
+        "name": "Local East Coordinate",
+        "assignedNumber": "2AB1"
+    },
+    {
+        "name": "Local North Coordinate",
+        "assignedNumber": "2AB0"
+    },
+    {
+        "name": "Local Time Information",
+        "assignedNumber": "2A0F"
+    },
+    {
+        "name": "LocationSpeed Characteristic",
+        "assignedNumber": "2A67"
+    },
+    {
+        "name": "Location Name",
+        "assignedNumber": "2AB5"
+    },
+    {
+        "name": "Longitude",
+        "assignedNumber": "2AAF"
+    },
+    {
+        "name": "Magnetic Declination",
+        "assignedNumber": "2A2C"
+    },
+    {
+        "name": "Magnetic Flux Density – 2D",
+        "assignedNumber": "2AA0"
+    },
+    {
+        "name": "Magnetic Flux Density – 3D",
+        "assignedNumber": "2AA1"
+    },
+    {
+        "name": "Manufacturer Name String",
+        "assignedNumber": "2A29"
+    },
+    {
+        "name": "Maximum Recommended Heart Rate",
+        "assignedNumber": "2A91"
+    },
+    {
+        "name": "Measurement Interval",
+        "assignedNumber": "2A21"
+    },
+    {
+        "name": "Model Number String",
+        "assignedNumber": "2A24"
+    },
+    {
+        "name": "Navigation",
+        "assignedNumber": "2A68"
+    },
+    {
+        "name": "Network Availability",
+        "assignedNumber": "2A3E"
+    },
+    {
+        "name": "New Alert",
+        "assignedNumber": "2A46"
+    },
+    {
+        "name": "Object Action Control Point",
+        "assignedNumber": "2AC5"
+    },
+    {
+        "name": "Object Changed",
+        "assignedNumber": "2AC8"
+    },
+    {
+        "name": "Object First-Created",
+        "assignedNumber": "2AC1"
+    },
+    {
+        "name": "Object ID",
+        "assignedNumber": "2AC3"
+    },
+    {
+        "name": "Object Last-Modified",
+        "assignedNumber": "2AC2"
+    },
+    {
+        "name": "Object List Control Point",
+        "assignedNumber": "2AC6"
+    },
+    {
+        "name": "Object List Filter",
+        "assignedNumber": "2AC7"
+    },
+    {
+        "name": "Object Name",
+        "assignedNumber": "2ABE"
+    },
+    {
+        "name": "Object Properties",
+        "assignedNumber": "2AC4"
+    },
+    {
+        "name": "Object Size",
+        "assignedNumber": "2AC0"
+    },
+    {
+        "name": "Object Type",
+        "assignedNumber": "2ABF"
+    },
+    {
+        "name": "OTS Feature",
+        "assignedNumber": "2ABD"
+    },
+    {
+        "name": "PLX Continuous Measurement Characteristic",
+        "assignedNumber": "2A5F"
+    },
+    {
+        "name": "PLX Features",
+        "assignedNumber": "2A60"
+    },
+    {
+        "name": "PLX Spot-Check Measurement",
+        "assignedNumber": "2A5E"
+    },
+    {
+        "name": "PnP ID",
+        "assignedNumber": "2A50"
+    },
+    {
+        "name": "Pollen Concentration",
+        "assignedNumber": "2A75"
+    },
+    {
+        "name": "Position 2D",
+        "assignedNumber": "2A2F"
+    },
+    {
+        "name": "Position 3D",
+        "assignedNumber": "2A30"
+    },
+    {
+        "name": "Position Quality",
+        "assignedNumber": "2A69"
+    },
+    {
+        "name": "Pressure",
+        "assignedNumber": "2A6D"
+    },
+    {
+        "name": "Protocol Mode",
+        "assignedNumber": "2A4E"
+    },
+    {
+        "name": "Pulse Oximetry Control Point",
+        "assignedNumber": "2A62"
+    },
+    {
+        "name": "Rainfall",
+        "assignedNumber": "2A78"
+    },
+    {
+        "name": "RC Feature",
+        "assignedNumber": "2B1D"
+    },
+    {
+        "name": "RC Settings",
+        "assignedNumber": "2B1E"
+    },
+    {
+        "name": "Reconnection Configuration Control Point",
+        "assignedNumber": "2B1F"
+    },
+    {
+        "name": "Record Access Control Point",
+        "assignedNumber": "2A52"
+    },
+    {
+        "name": "Reference Time Information",
+        "assignedNumber": "2A14"
+    },
+    {
+        "name": "Registered User Characteristic",
+        "assignedNumber": "2B37"
+    },
+    {
+        "name": "Removable",
+        "assignedNumber": "2A3A"
+    },
+    {
+        "name": "Report",
+        "assignedNumber": "2A4D"
+    },
+    {
+        "name": "Report Map",
+        "assignedNumber": "2A4B"
+    },
+    {
+        "name": "Resolvable Private Address Only",
+        "assignedNumber": "2AC9"
+    },
+    {
+        "name": "Resting Heart Rate",
+        "assignedNumber": "2A92"
+    },
+    {
+        "name": "Ringer Control",
+        "assignedNumber": "2A40"
+    },
+    {
+        "name": "Ringer Setting",
+        "assignedNumber": "2A41"
+    },
+    {
+        "name": "Rower Data",
+        "assignedNumber": "2AD1"
+    },
+    {
+        "name": "RSC Feature",
+        "assignedNumber": "2A54"
+    },
+    {
+        "name": "RSC Measurement",
+        "assignedNumber": "2A53"
+    },
+    {
+        "name": "SC Control Point",
+        "assignedNumber": "2A55"
+    },
+    {
+        "name": "Scan Interval Window",
+        "assignedNumber": "2A4F"
+    },
+    {
+        "name": "Scan Refresh",
+        "assignedNumber": "2A31"
+    },
+    {
+        "name": "Scientific Temperature Celsius",
+        "assignedNumber": "2A3C"
+    },
+    {
+        "name": "Secondary Time Zone",
+        "assignedNumber": "2A10"
+    },
+    {
+        "name": "Sensor Location",
+        "assignedNumber": "2A5D"
+    },
+    {
+        "name": "Serial Number String",
+        "assignedNumber": "2A25"
+    },
+    {
+        "name": "Server Supported Features",
+        "assignedNumber": "2B3A"
+    },
+    {
+        "name": "Service Required",
+        "assignedNumber": "2A3B"
+    },
+    {
+        "name": "Software Revision String",
+        "assignedNumber": "2A28"
+    },
+    {
+        "name": "Sport TypeAerobicAnaerobic Thresholds",
+        "assignedNumber": "2A93"
+    },
+    {
+        "name": "Stair Climber Data",
+        "assignedNumber": "2AD0"
+    },
+    {
+        "name": "Step Climber Data",
+        "assignedNumber": "2ACF"
+    },
+    {
+        "name": "String",
+        "assignedNumber": "2A3D"
+    },
+    {
+        "name": "Supported Heart Rate Range",
+        "assignedNumber": "2AD7"
+    },
+    {
+        "name": "Supported Inclination Range",
+        "assignedNumber": "2AD5"
+    },
+    {
+        "name": "Supported New Alert Category",
+        "assignedNumber": "2A47"
+    },
+    {
+        "name": "Supported Power Range",
+        "assignedNumber": "2AD8"
+    },
+    {
+        "name": "Supported Resistance Level Range",
+        "assignedNumber": "2AD6"
+    },
+    {
+        "name": "Supported Speed Range",
+        "assignedNumber": "2AD4"
+    },
+    {
+        "name": "Supported Unread Alert Category",
+        "assignedNumber": "2A48"
+    },
+    {
+        "name": "System ID",
+        "assignedNumber": "2A23"
+    },
+    {
+        "name": "TDS Control Point",
+        "assignedNumber": "2ABC"
+    },
+    {
+        "name": "Temperature",
+        "assignedNumber": "2A6E"
+    },
+    {
+        "name": "Temperature Celsius",
+        "assignedNumber": "2A1F"
+    },
+    {
+        "name": "Temperature Fahrenheit",
+        "assignedNumber": "2A20"
+    },
+    {
+        "name": "Temperature Measurement",
+        "assignedNumber": "2A1C"
+    },
+    {
+        "name": "Temperature Type",
+        "assignedNumber": "2A1D"
+    },
+    {
+        "name": "Three Zone Heart Rate Limits",
+        "assignedNumber": "2A94"
+    },
+    {
+        "name": "Time Accuracy",
+        "assignedNumber": "2A12"
+    },
+    {
+        "name": "Time Broadcast",
+        "assignedNumber": "2A15"
+    },
+    {
+        "name": "Time Source",
+        "assignedNumber": "2A13"
+    },
+    {
+        "name": "Time Update Control Point",
+        "assignedNumber": "2A16"
+    },
+    {
+        "name": "Time Update State",
+        "assignedNumber": "2A17"
+    },
+    {
+        "name": "TimeDST",
+        "assignedNumber": "2A11"
+    },
+    {
+        "name": "Time Zone",
+        "assignedNumber": "2A0E"
+    },
+    {
+        "name": "Training Status",
+        "assignedNumber": "2AD3"
+    },
+    {
+        "name": "Treadmill Data",
+        "assignedNumber": "2ACD"
+    },
+    {
+        "name": "True Wind Direction",
+        "assignedNumber": "2A71"
+    },
+    {
+        "name": "True Wind Speed",
+        "assignedNumber": "2A70"
+    },
+    {
+        "name": "Two Zone Heart Rate Limit",
+        "assignedNumber": "2A95"
+    },
+    {
+        "name": "Tx Power Level",
+        "assignedNumber": "2A07"
+    },
+    {
+        "name": "Uncertainty",
+        "assignedNumber": "2AB4"
+    },
+    {
+        "name": "Unread Alert Status",
+        "assignedNumber": "2A45"
+    },
+    {
+        "name": "URI",
+        "assignedNumber": "2AB6"
+    },
+    {
+        "name": "User Control Point",
+        "assignedNumber": "2A9F"
+    },
+    {
+        "name": "User Index",
+        "assignedNumber": "2A9A"
+    },
+    {
+        "name": "UV Index",
+        "assignedNumber": "2A76"
+    },
+    {
+        "name": "VO2 Max",
+        "assignedNumber": "2A96"
+    },
+    {
+        "name": "Waist Circumference",
+        "assignedNumber": "2A97"
+    },
+    {
+        "name": "Weight",
+        "assignedNumber": "2A98"
+    },
+    {
+        "name": "Weight Measurement",
+        "assignedNumber": "2A9D"
+    },
+    {
+        "name": "Weight Scale Feature",
+        "assignedNumber": "2A9E"
+    },
+    {
+        "name": "Wind Chill",
+        "assignedNumber": "2A79"
+    }
+]

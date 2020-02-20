@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9100D8BF23F9190000F38CDF /* BLECharacteristics.json in Resources */ = {isa = PBXBuildFile; fileRef = 9100D8BE23F9190000F38CDF /* BLECharacteristics.json */; };
+		9100D8C123F91EBD00F38CDF /* BLEData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9100D8C023F91EBD00F38CDF /* BLEData.swift */; };
+		9100D8C323F9260500F38CDF /* BLEServices.json in Resources */ = {isa = PBXBuildFile; fileRef = 9100D8C223F9260500F38CDF /* BLEServices.json */; };
+		9100D8C623F9AAC100F38CDF /* KeiserBikeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9100D8C523F9AAC100F38CDF /* KeiserBikeDetailView.swift */; };
+		9117810D23F6678C009F9BBD /* BLEManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117810C23F6678C009F9BBD /* BLEManagerDelegate.swift */; };
+		9117810F23F66917009F9BBD /* KeiserBike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117810E23F66917009F9BBD /* KeiserBike.swift */; };
+		9117811223F87441009F9BBD /* KeiserBikeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117811123F87441009F9BBD /* KeiserBikeListView.swift */; };
+		913628EB23FD0DCB00AB9338 /* BLEPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913628EA23FD0DCB00AB9338 /* BLEPeripheral.swift */; };
+		913628ED23FD0F5100AB9338 /* KeiserBikeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913628EC23FD0F5100AB9338 /* KeiserBikeManager.swift */; };
 		91DC3C7223F3AFE900FD70CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC3C7123F3AFE900FD70CC /* AppDelegate.swift */; };
 		91DC3C7423F3AFE900FD70CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC3C7323F3AFE900FD70CC /* SceneDelegate.swift */; };
 		91DC3C7723F3AFE900FD70CC /* Methodometer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 91DC3C7523F3AFE900FD70CC /* Methodometer.xcdatamodeld */; };
@@ -36,6 +45,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9100D8BE23F9190000F38CDF /* BLECharacteristics.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = BLECharacteristics.json; sourceTree = "<group>"; };
+		9100D8C023F91EBD00F38CDF /* BLEData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEData.swift; sourceTree = "<group>"; };
+		9100D8C223F9260500F38CDF /* BLEServices.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = BLEServices.json; sourceTree = "<group>"; };
+		9100D8C523F9AAC100F38CDF /* KeiserBikeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeiserBikeDetailView.swift; sourceTree = "<group>"; };
+		9117810C23F6678C009F9BBD /* BLEManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManagerDelegate.swift; sourceTree = "<group>"; };
+		9117810E23F66917009F9BBD /* KeiserBike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeiserBike.swift; sourceTree = "<group>"; };
+		9117811023F66FCE009F9BBD /* Methodometer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Methodometer.entitlements; sourceTree = "<group>"; };
+		9117811123F87441009F9BBD /* KeiserBikeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeiserBikeListView.swift; sourceTree = "<group>"; };
+		913628EA23FD0DCB00AB9338 /* BLEPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEPeripheral.swift; sourceTree = "<group>"; };
+		913628EC23FD0F5100AB9338 /* KeiserBikeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeiserBikeManager.swift; sourceTree = "<group>"; };
 		91DC3C6E23F3AFE900FD70CC /* Methodometer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Methodometer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91DC3C7123F3AFE900FD70CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		91DC3C7323F3AFE900FD70CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +97,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9100D8BD23F9185800F38CDF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9100D8BE23F9190000F38CDF /* BLECharacteristics.json */,
+				9100D8C223F9260500F38CDF /* BLEServices.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9100D8C423F9AA7500F38CDF /* Supporting Views */ = {
+			isa = PBXGroup;
+			children = (
+				9117811123F87441009F9BBD /* KeiserBikeListView.swift */,
+				9100D8C523F9AAC100F38CDF /* KeiserBikeDetailView.swift */,
+			);
+			path = "Supporting Views";
+			sourceTree = "<group>";
+		};
+		9117810B23F66776009F9BBD /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9117810C23F6678C009F9BBD /* BLEManagerDelegate.swift */,
+				913628EA23FD0DCB00AB9338 /* BLEPeripheral.swift */,
+				9100D8C023F91EBD00F38CDF /* BLEData.swift */,
+				913628EC23FD0F5100AB9338 /* KeiserBikeManager.swift */,
+				9117810E23F66917009F9BBD /* KeiserBike.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		91DC3C6523F3AFE900FD70CC = {
 			isa = PBXGroup;
 			children = (
@@ -101,13 +150,17 @@
 		91DC3C7023F3AFE900FD70CC /* Methodometer */ = {
 			isa = PBXGroup;
 			children = (
-				91DC3C7123F3AFE900FD70CC /* AppDelegate.swift */,
-				91DC3C7323F3AFE900FD70CC /* SceneDelegate.swift */,
-				91DC3C7823F3AFE900FD70CC /* ContentView.swift */,
+				9117811023F66FCE009F9BBD /* Methodometer.entitlements */,
 				91DC3C7A23F3AFEC00FD70CC /* Assets.xcassets */,
 				91DC3C7F23F3AFEC00FD70CC /* LaunchScreen.storyboard */,
 				91DC3C8223F3AFEC00FD70CC /* Info.plist */,
 				91DC3C7523F3AFE900FD70CC /* Methodometer.xcdatamodeld */,
+				9100D8BD23F9185800F38CDF /* Resources */,
+				9117810B23F66776009F9BBD /* Models */,
+				9100D8C423F9AA7500F38CDF /* Supporting Views */,
+				91DC3C7123F3AFE900FD70CC /* AppDelegate.swift */,
+				91DC3C7323F3AFE900FD70CC /* SceneDelegate.swift */,
+				91DC3C7823F3AFE900FD70CC /* ContentView.swift */,
 				91DC3C7C23F3AFEC00FD70CC /* Preview Content */,
 			);
 			path = Methodometer;
@@ -245,6 +298,8 @@
 			files = (
 				91DC3C8123F3AFEC00FD70CC /* LaunchScreen.storyboard in Resources */,
 				91DC3C7E23F3AFEC00FD70CC /* Preview Assets.xcassets in Resources */,
+				9100D8C323F9260500F38CDF /* BLEServices.json in Resources */,
+				9100D8BF23F9190000F38CDF /* BLECharacteristics.json in Resources */,
 				91DC3C7B23F3AFEC00FD70CC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,7 +325,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				913628EB23FD0DCB00AB9338 /* BLEPeripheral.swift in Sources */,
+				9117810D23F6678C009F9BBD /* BLEManagerDelegate.swift in Sources */,
+				913628ED23FD0F5100AB9338 /* KeiserBikeManager.swift in Sources */,
+				9117810F23F66917009F9BBD /* KeiserBike.swift in Sources */,
+				9100D8C623F9AAC100F38CDF /* KeiserBikeDetailView.swift in Sources */,
 				91DC3C7223F3AFE900FD70CC /* AppDelegate.swift in Sources */,
+				9100D8C123F91EBD00F38CDF /* BLEData.swift in Sources */,
+				9117811223F87441009F9BBD /* KeiserBikeListView.swift in Sources */,
 				91DC3C7423F3AFE900FD70CC /* SceneDelegate.swift in Sources */,
 				91DC3C7923F3AFE900FD70CC /* ContentView.swift in Sources */,
 				91DC3C7723F3AFE900FD70CC /* Methodometer.xcdatamodeld in Sources */,
@@ -438,6 +500,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Methodometer/Methodometer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Methodometer/Preview Content\"";
 				DEVELOPMENT_TEAM = G9R7C34LG5;
@@ -458,6 +521,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Methodometer/Methodometer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Methodometer/Preview Content\"";
 				DEVELOPMENT_TEAM = G9R7C34LG5;

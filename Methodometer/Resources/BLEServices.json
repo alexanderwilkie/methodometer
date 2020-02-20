@@ -1,0 +1,170 @@
+[
+    {
+        "name": "Generic Access",
+        "assignedNumber": "1800"
+    },
+    {
+        "name": "Alert Notification Service",
+        "assignedNumber": "1811"
+    },
+    {
+        "name": "Automation IO",
+        "assignedNumber": "1815"
+    },
+    {
+        "name": "Battery Service",
+        "assignedNumber": "180F"
+    },
+    {
+        "name": "Binary Sensor",
+        "assignedNumber": "183B"
+    },
+    {
+        "name": "Blood Pressure",
+        "assignedNumber": "1810"
+    },
+    {
+        "name": "Body Composition",
+        "assignedNumber": "181B"
+    },
+    {
+        "name": "Bond Management Service",
+        "assignedNumber": "181E"
+    },
+    {
+        "name": "Continuous Glucose Monitoring",
+        "assignedNumber": "181F"
+    },
+    {
+        "name": "Current Time Service",
+        "assignedNumber": "1805"
+    },
+    {
+        "name": "Cycling Power",
+        "assignedNumber": "1818"
+    },
+    {
+        "name": "Cycling Speed Cadence",
+        "assignedNumber": "1816"
+    },
+    {
+        "name": "Device Information",
+        "assignedNumber": "180A"
+    },
+    {
+        "name": "Emergency Configuration",
+        "assignedNumber": "183C"
+    },
+    {
+        "name": "Environmental Sensing",
+        "assignedNumber": "181A"
+    },
+    {
+        "name": "Fitness Machine",
+        "assignedNumber": "1826"
+    },
+    {
+        "name": "Generic Attribute",
+        "assignedNumber": "1801"
+    },
+    {
+        "name": "Glucose",
+        "assignedNumber": "1808"
+    },
+    {
+        "name": "Health Thermometer",
+        "assignedNumber": "1809"
+    },
+    {
+        "name": "Heart Rate",
+        "assignedNumber": "180D"
+    },
+    {
+        "name": "HTTP Proxy",
+        "assignedNumber": "1823"
+    },
+    {
+        "name": "Human Interface Device",
+        "assignedNumber": "1812"
+    },
+    {
+        "name": "Immediate Alert",
+        "assignedNumber": "1802"
+    },
+    {
+        "name": "Indoor Positioning",
+        "assignedNumber": "1821"
+    },
+    {
+        "name": "Insulin Delivery",
+        "assignedNumber": "183A"
+    },
+    {
+        "name": "Internet Protocol Support Service",
+        "assignedNumber": "1820"
+    },
+    {
+        "name": "Link Loss",
+        "assignedNumber": "1803"
+    },
+    {
+        "name": "Location Navigation",
+        "assignedNumber": "1819"
+    },
+    {
+        "name": "Mesh Provisioning Service",
+        "assignedNumber": "1827"
+    },
+    {
+        "name": "Mesh Proxy Service",
+        "assignedNumber": "1828"
+    },
+    {
+        "name": "Next DST Change Service",
+        "assignedNumber": "1807"
+    },
+    {
+        "name": "Object Transfer Service",
+        "assignedNumber": "1825"
+    },
+    {
+        "name": "Phone Alert Status Service",
+        "assignedNumber": "180E"
+    },
+    {
+        "name": "Pulse Oximeter Service",
+        "assignedNumber": "1822"
+    },
+    {
+        "name": "Reconnection Configuration",
+        "assignedNumber": "1829"
+    },
+    {
+        "name": "Reference Time Update Service",
+        "assignedNumber": "1806"
+    },
+    {
+        "name": "Running Speed Cadence",
+        "assignedNumber": "1814"
+    },
+    {
+        "name": "Scan Parameters",
+        "assignedNumber": "1813"
+    },
+    {
+        "name": "Transport Discovery",
+        "assignedNumber": "1824"
+    },
+    {
+        "name": "Tx Power",
+        "assignedNumber": "1804"
+    },
+    {
+        "name": "User Data",
+        "assignedNumber": "181C"
+    },
+    {
+        "name": "Weight Scale",
+        "assignedNumber": "181D"
+    }
+]
