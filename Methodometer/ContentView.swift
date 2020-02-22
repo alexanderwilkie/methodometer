@@ -16,8 +16,8 @@ struct ContentView: View {
     
     @State var timer: Timer?
     
-    @EnvironmentObject var bts: BLEManagerDelegate
-    
+    @EnvironmentObject var kbm: KeiserBikeManager
+
     var methodometerToggle: Bool {
         true
     }
@@ -77,7 +77,7 @@ struct ContentView: View {
                         .cornerRadius(40)
                     }
                     
-                    NavigationLink(destination: KeiserBikeListView().environmentObject(self.bts)) {
+                    NavigationLink(destination: KeiserBikeListView().environmentObject(self.kbm)) {
                         HStack {
                             Image(systemName: "wifi")
                                 .font(.title)
@@ -139,7 +139,8 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
-            .environmentObject(BLEManagerDelegate())
+        ContentView().environmentObject(
+            KeiserBikeManager.fakeSession(bikes: 32, duration: 60)
+        )
     }
 }

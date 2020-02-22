@@ -10,23 +10,27 @@ import SwiftUI
 import CoreBluetooth
 
 struct KeiserBikeListView: View {
-    @EnvironmentObject var bts: BLEManagerDelegate
+    @EnvironmentObject var kbm: KeiserBikeManager
     
     var body: some View {
-        List {
-            ForEach(self.bts.filterNamedPeripherals) { p in
-                NavigationLink(
-                    destination: KeiserBikeDetailView()
-                        .environmentObject(self.bts)
-                        .environmentObject(p)
-                ) {
-                    VStack(alignment: .leading) {
-                        Text(p.advertisedName!)
-                            .font(.subheadline)
-                            .fontWeight(.heavy)
-                        Text(p.state.stringRepresentation)
+        List(self.kbm.foundBikes, id: \.self) { bike in
+            NavigationLink(
+                destination: KeiserBikeDetailView()
+                    .environmentObject(bike)
+            ) {
+                VStack(alignment: .leading) {
+                    Text(bike.name!)
+                        .font(.subheadline)
+                        .fontWeight(.heavy)
+                    HStack {
+                        Text("Bike ID:")
                             .font(.subheadline)
                             .fontWeight(.light)
+                            .foregroundColor(.gray)
+                            .italic()
+                        Text(String(bike.ordinalId))
+                            .font(.subheadline)
+                            .fontWeight(.heavy)
                             .foregroundColor(.gray)
                             .italic()
                     }
@@ -41,6 +45,10 @@ struct KeiserBikeListView: View {
 
 struct KeiserBikeListView_Previews: PreviewProvider {
     static var previews: some View {
-        KeiserBikeListView().environmentObject(BLEManagerDelegate())
+        let kbm = KeiserBikeManager()
+        for _ in 1...30 {
+            kbm.foundBikes.append(KeiserBike.fakeRandomBike(duration: 0))
+        }
+        return KeiserBikeListView().environmentObject(kbm)
     }
 }

@@ -15,10 +15,10 @@ struct KeiserBikeDetailView: View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Text(String(self.bike.ordinalId))
+                    Text(String(self.bike.name!))
                         .font(.headline)
                         .fontWeight(.heavy)
-                    Text(String(self.bike.ordinalId))
+                    Text("\(bike.ordinalId)")
                         .font(.subheadline)
                         .fontWeight(.light)
                         .foregroundColor(.gray)
@@ -26,8 +26,96 @@ struct KeiserBikeDetailView: View {
                 }
                 Spacer()
             }
-            .padding()
+            Spacer()
+            HStack() {
+                Spacer()
+                VStack(alignment: .center) {
+                    Text("\(self.bike.gear!)")
+                        .font(.largeTitle)
+                        .fontWeight(.heavy)
+                    Text("Gear")
+                        .font(.subheadline)
+                        .fontWeight(.light)
+                        .foregroundColor(.gray)
+                        .italic()
+                }
+                Spacer()
+            }
+            Spacer()
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
+                    Text("Cadence")
+                        .font(.headline)
+                        .fontWeight(.heavy)
+                    Text("\(self.bike.cadence!)")
+                        .font(.subheadline)
+                        .fontWeight(.light)
+                        .foregroundColor(.gray)
+                        .italic()
+                }
+                Spacer()
+                VStack(alignment: .trailing) {
+                    Text("Power")
+                        .font(.headline)
+                        .fontWeight(.heavy)
+                    Text("\(self.bike.power!)")
+                        .font(.subheadline)
+                        .fontWeight(.light)
+                        .foregroundColor(.gray)
+                        .italic()
+                }
+            }
+            Spacer()
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
+                    Text("Duration")
+                        .font(.headline)
+                        .fontWeight(.heavy)
+                    Text("\(self.bike.duration!)")
+                        .font(.subheadline)
+                        .fontWeight(.light)
+                        .foregroundColor(.gray)
+                        .italic()
+                }
+                Spacer()
+                VStack(alignment: .trailing) {
+                    Text("Distance")
+                        .font(.headline)
+                        .fontWeight(.heavy)
+                    Text("\(self.bike.tripDistance!)")
+                        .font(.subheadline)
+                        .fontWeight(.light)
+                        .foregroundColor(.gray)
+                        .italic()
+                }
+            }
+            Spacer()
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
+                    Text("Heartrate")
+                        .font(.headline)
+                        .fontWeight(.heavy)
+                    Text("\(self.bike.heartRate!)")
+                        .font(.subheadline)
+                        .fontWeight(.light)
+                        .foregroundColor(.gray)
+                        .italic()
+                }
+                Spacer()
+                VStack(alignment: .trailing) {
+                    Text("Caloric Burn")
+                        .font(.headline)
+                        .fontWeight(.heavy)
+                    Text("\(self.bike.caloricBurn!)")
+                        .font(.subheadline)
+                        .fontWeight(.light)
+                        .foregroundColor(.gray)
+                        .italic()
+                }
+            }
+            Spacer()
         }
+        .padding()
         .navigationBarTitle(Text("Details"), displayMode: .inline)
     }
 }
@@ -35,11 +123,7 @@ struct KeiserBikeDetailView: View {
 struct KeiserBikeDetailView_Previews: PreviewProvider {
     static var previews: some View {
         KeiserBikeDetailView().environmentObject(
-            KeiserBike(
-                ordinalId: 19, buildMajor: 3, buildMinor: 6, cadence: 134,
-                heartRate: 155, power: 500, caloricBurn: 800, duration: 344,
-                tripDistance: 4.5, gear: 18
-            )
+            KeiserBike.fakeRandomBike(duration: 0)
         )
     }
 }

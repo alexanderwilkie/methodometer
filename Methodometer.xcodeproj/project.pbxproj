@@ -11,11 +11,11 @@
 		9100D8C123F91EBD00F38CDF /* BLEData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9100D8C023F91EBD00F38CDF /* BLEData.swift */; };
 		9100D8C323F9260500F38CDF /* BLEServices.json in Resources */ = {isa = PBXBuildFile; fileRef = 9100D8C223F9260500F38CDF /* BLEServices.json */; };
 		9100D8C623F9AAC100F38CDF /* KeiserBikeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9100D8C523F9AAC100F38CDF /* KeiserBikeDetailView.swift */; };
-		9117810D23F6678C009F9BBD /* BLEManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117810C23F6678C009F9BBD /* BLEManagerDelegate.swift */; };
 		9117810F23F66917009F9BBD /* KeiserBike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117810E23F66917009F9BBD /* KeiserBike.swift */; };
 		9117811223F87441009F9BBD /* KeiserBikeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117811123F87441009F9BBD /* KeiserBikeListView.swift */; };
 		913628EB23FD0DCB00AB9338 /* BLEPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913628EA23FD0DCB00AB9338 /* BLEPeripheral.swift */; };
 		913628ED23FD0F5100AB9338 /* KeiserBikeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913628EC23FD0F5100AB9338 /* KeiserBikeManager.swift */; };
+		913628EF23FF988500AB9338 /* Perlin1D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913628EE23FF988500AB9338 /* Perlin1D.swift */; };
 		91DC3C7223F3AFE900FD70CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC3C7123F3AFE900FD70CC /* AppDelegate.swift */; };
 		91DC3C7423F3AFE900FD70CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC3C7323F3AFE900FD70CC /* SceneDelegate.swift */; };
 		91DC3C7723F3AFE900FD70CC /* Methodometer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 91DC3C7523F3AFE900FD70CC /* Methodometer.xcdatamodeld */; };
@@ -49,12 +49,12 @@
 		9100D8C023F91EBD00F38CDF /* BLEData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEData.swift; sourceTree = "<group>"; };
 		9100D8C223F9260500F38CDF /* BLEServices.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = BLEServices.json; sourceTree = "<group>"; };
 		9100D8C523F9AAC100F38CDF /* KeiserBikeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeiserBikeDetailView.swift; sourceTree = "<group>"; };
-		9117810C23F6678C009F9BBD /* BLEManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManagerDelegate.swift; sourceTree = "<group>"; };
 		9117810E23F66917009F9BBD /* KeiserBike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeiserBike.swift; sourceTree = "<group>"; };
 		9117811023F66FCE009F9BBD /* Methodometer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Methodometer.entitlements; sourceTree = "<group>"; };
 		9117811123F87441009F9BBD /* KeiserBikeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeiserBikeListView.swift; sourceTree = "<group>"; };
 		913628EA23FD0DCB00AB9338 /* BLEPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEPeripheral.swift; sourceTree = "<group>"; };
 		913628EC23FD0F5100AB9338 /* KeiserBikeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeiserBikeManager.swift; sourceTree = "<group>"; };
+		913628EE23FF988500AB9338 /* Perlin1D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perlin1D.swift; sourceTree = "<group>"; };
 		91DC3C6E23F3AFE900FD70CC /* Methodometer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Methodometer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91DC3C7123F3AFE900FD70CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		91DC3C7323F3AFE900FD70CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -118,11 +118,11 @@
 		9117810B23F66776009F9BBD /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9117810C23F6678C009F9BBD /* BLEManagerDelegate.swift */,
 				913628EA23FD0DCB00AB9338 /* BLEPeripheral.swift */,
 				9100D8C023F91EBD00F38CDF /* BLEData.swift */,
 				913628EC23FD0F5100AB9338 /* KeiserBikeManager.swift */,
 				9117810E23F66917009F9BBD /* KeiserBike.swift */,
+				913628EE23FF988500AB9338 /* Perlin1D.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -326,10 +326,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				913628EB23FD0DCB00AB9338 /* BLEPeripheral.swift in Sources */,
-				9117810D23F6678C009F9BBD /* BLEManagerDelegate.swift in Sources */,
 				913628ED23FD0F5100AB9338 /* KeiserBikeManager.swift in Sources */,
 				9117810F23F66917009F9BBD /* KeiserBike.swift in Sources */,
 				9100D8C623F9AAC100F38CDF /* KeiserBikeDetailView.swift in Sources */,
+				913628EF23FF988500AB9338 /* Perlin1D.swift in Sources */,
 				91DC3C7223F3AFE900FD70CC /* AppDelegate.swift in Sources */,
 				9100D8C123F91EBD00F38CDF /* BLEData.swift in Sources */,
 				9117811223F87441009F9BBD /* KeiserBikeListView.swift in Sources */,
