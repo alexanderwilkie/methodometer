@@ -7,6 +7,9 @@ enum KeiserBikeError: Error {
 
 open class KeiserBike: NSObject, Identifiable, ObservableObject {
 
+    public let id: Int
+    
+    public var valid = false
     @Published public var name: String?
     
     @Published public var ordinalId: Int = 0
@@ -37,6 +40,7 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
     static private let gearRange = 0...24
     
     init(_ data: Data) {
+        self.id = 0
         super.init()
         self.updateWithData(bikeData: data)
     }
@@ -46,6 +50,7 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
         heartRate: Int, power: Int, caloricBurn: Int, duration: TimeInterval,
         tripDistance: Double, gear: Int
     ) {
+        self.id = ordinalId
         super.init()
         
         self.name = name
@@ -61,7 +66,17 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
         self.gear = gear
     }
     
+    override open func isEqual(_ object: Any?) -> Bool {
+        if let otherBike = object as? KeiserBike {
+            return self.id == otherBike.id
+        }
+        return false
+    }
+    
     public func updateWithData(bikeData _data: Data) {
+        
+        // a lot of shit could go wrong - invalidate before attempting
+        valid = false
         
         // If it includes the Prefix Bits - Ignore these two
         if (_data.count < 17) {
@@ -128,9 +143,15 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
         else {
             tripDistance = Double(tempDistance!) / 10.0
         }
+        
+        // sick...
+        valid = true
     }
     
-    func simulate(seconds duration: Int, interval: Int = 1) {
+    func simulate() {
+        // Add the idea of bikes not updating to simulate them dropping out - will need same mechanism
+        // in real life to cull bikes not updated in X seconds...
+        //
         var effortPredictor: Int {
             let e = Int.random(in: 0...100) + 1
             if (e >= 60) {
@@ -141,60 +162,46 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
                 return -1
             }
         }
-        var x = 0
         
-        let t = Timer.scheduledTimer(withTimeInterval: TimeInterval(interval), repeats: true) { timer in
-            x += interval
-            let ep = effortPredictor
-            print(ep)
-            
-            if (ep == 1) {
-                if (self.gear! < KeiserBike.gearRange.upperBound) {
-                    self.gear! += 1
-                }
-                
-                if(self.cadence! < KeiserBike.cadenceRange.upperBound) {
-                    self.cadence! += Int.random(in: 0...100) + 1
-                }
-                
-                self.heartRate! += Int.random(in: 0...20) + 1 + 11
-            } else if (ep == -1) {
-                 if (self.gear! > KeiserBike.gearRange.lowerBound) {
-                    self.gear! -= 1
-                }
-                
-                if(self.cadence! > KeiserBike.cadenceRange.lowerBound) {
-                    self.cadence! -= Int.random(in: 0...100) + 1
-                }
-                
-                self.heartRate! -= Int.random(in: 0...20) + 1 + 11
+        let ep = effortPredictor
+        if (ep == 1) {
+            if (self.gear! < KeiserBike.gearRange.upperBound) {
+                self.gear! += 1
             }
-
-            self.power = Int(Float(self.gear!) / 64.0 * Float(self.cadence!))
-
-            self.caloricBurn! += Int.random(in: 0...10)
-            
-            self.duration = self.duration! + TimeInterval(x)
-            self.tripDistance = Double(self.power! / 1000)
-            
-            print("[DEBUG] \(self.description) at interval \(x) \(self.cadence)")
-            
-            if x == duration {
-                print("[DEBUG] Bike: \(self.ordinalId) has finished simulating!")
-                timer.invalidate()
+            if(self.cadence! < KeiserBike.cadenceRange.upperBound) {
+                self.cadence! += Int.random(in: 0...100) + 1
             }
+            self.heartRate! += Int.random(in: 0...20) + 1 + 11
+        } else if (ep == -1) {
+             if (self.gear! > KeiserBike.gearRange.lowerBound) {
+                self.gear! -= 1
+            }
+            if(self.cadence! > KeiserBike.cadenceRange.lowerBound) {
+                self.cadence! = max(KeiserBike.cadenceRange.lowerBound, self.cadence! - Int.random(in: 0...100) + 1)
+            }
+            self.heartRate! -= Int.random(in: 0...20) + 1 + 11
         }
-        RunLoop.main.add(t, forMode: .common)
-     }
+
+        self.power = Int(Float(self.gear!) / 64.0 * Float(self.cadence!))
+
+        self.caloricBurn! += Int.random(in: 0...10)
+        
+        self.duration = self.duration! + TimeInterval(1)
+        self.tripDistance = Double(self.power! / 1000)
+    }
     
     public override var description: String {
         return "[Bike: \(self.ordinalId)] cdn: \(self.cadence). hr: \(heartRate). power: \(power). caloricBurn: \(caloricBurn). dur: \(duration). tripDistance: \(tripDistance). gear: \(gear)"
     }
     
-    static func fakeRandomBike(duration: Int) -> KeiserBike {
-        let kb = KeiserBike(
+    static func fakeRandomBike() -> KeiserBike {
+        return KeiserBike.fakeRandomBike(ordinalID: Int.random(in: KeiserBike.ordinalIdRange))
+    }
+    
+    static func fakeRandomBike(ordinalID: Int) -> KeiserBike {
+        return KeiserBike(
             name: "M4",
-            ordinalId: Int.random(in: KeiserBike.ordinalIdRange),
+            ordinalId: ordinalID,
             buildMajor: 6,
             buildMinor: 30,
             cadence: Int.random(in: KeiserBike.cadenceRange),
@@ -205,11 +212,5 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
             tripDistance: Double.random(in: KeiserBike.tripDistanceRange),
             gear: Int.random(in: KeiserBike.gearRange)
         )
-        
-        if (duration > 0) {
-            kb.simulate(seconds: duration)
-        }
-        
-        return kb
     }
 }

@@ -10,6 +10,9 @@ import SwiftUI
 
 struct KeiserBikeDetailView: View {
     @EnvironmentObject var bike: KeiserBike
+    @State private var showModal: Bool = false
+    
+    @State var goal = Goal()
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -25,6 +28,18 @@ struct KeiserBikeDetailView: View {
                         .italic()
                 }
                 Spacer()
+                Button(action: { self.showModal = true }) {
+                    Image(systemName: "bolt.circle")
+                    .font(.title)
+                }
+                .animation(.none)
+                .foregroundColor(.green)
+                .frame(width: 35, height: 35)
+                .buttonStyle(CircleButtonStyle())
+                .sheet(isPresented: self.$showModal) {
+                    GoalView()
+                        .environmentObject(self.goal)
+                }
             }
             Spacer()
             HStack() {
@@ -87,6 +102,11 @@ struct KeiserBikeDetailView: View {
                         .fontWeight(.light)
                         .foregroundColor(.gray)
                         .italic()
+                    Text("\(self.goal.distance)")
+                        .font(.subheadline)
+                        .fontWeight(.light)
+                        .foregroundColor(.gray)
+                        .italic()
                 }
             }
             Spacer()
@@ -123,7 +143,7 @@ struct KeiserBikeDetailView: View {
 struct KeiserBikeDetailView_Previews: PreviewProvider {
     static var previews: some View {
         KeiserBikeDetailView().environmentObject(
-            KeiserBike.fakeRandomBike(duration: 0)
+            KeiserBike.fakeRandomBike()
         )
     }
 }

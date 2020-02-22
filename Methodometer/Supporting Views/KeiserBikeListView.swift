@@ -13,42 +13,40 @@ struct KeiserBikeListView: View {
     @EnvironmentObject var kbm: KeiserBikeManager
     
     var body: some View {
-        List(self.kbm.foundBikes, id: \.self) { bike in
-            NavigationLink(
-                destination: KeiserBikeDetailView()
-                    .environmentObject(bike)
-            ) {
-                VStack(alignment: .leading) {
-                    Text(bike.name!)
-                        .font(.subheadline)
-                        .fontWeight(.heavy)
-                    HStack {
-                        Text("Bike ID:")
-                            .font(.subheadline)
-                            .fontWeight(.light)
-                            .foregroundColor(.gray)
-                            .italic()
-                        Text(String(bike.ordinalId))
+        NavigationView {
+            List(self.kbm.foundBikes.values.sorted(by: {$0.ordinalId < $1.ordinalId})) { bike in
+                NavigationLink(
+                    destination: KeiserBikeDetailView()
+                        .environmentObject(bike)
+                ) {
+                    VStack(alignment: .leading) {
+                        Text(bike.name!)
                             .font(.subheadline)
                             .fontWeight(.heavy)
-                            .foregroundColor(.gray)
-                            .italic()
+                        HStack {
+                            Text("Bike ID:")
+                                .font(.subheadline)
+                                .fontWeight(.light)
+                                .foregroundColor(.gray)
+                                .italic()
+                            Text(String(bike.ordinalId))
+                                .font(.subheadline)
+                                .fontWeight(.heavy)
+                                .foregroundColor(.gray)
+                                .italic()
+                        }
                     }
                 }
+                .padding()
             }
-            .padding()
+            .listStyle(PlainListStyle())
+            .navigationBarTitle(Text("Available Bikes"), displayMode: .inline)
         }
-        .listStyle(PlainListStyle())
-        .navigationBarTitle(Text("Available Bikes"), displayMode: .inline)
     }
 }
 
 struct KeiserBikeListView_Previews: PreviewProvider {
     static var previews: some View {
-        let kbm = KeiserBikeManager()
-        for _ in 1...30 {
-            kbm.foundBikes.append(KeiserBike.fakeRandomBike(duration: 0))
-        }
-        return KeiserBikeListView().environmentObject(kbm)
+        return KeiserBikeListView().environmentObject(KeiserBikeManager(simulated: false))
     }
 }
