@@ -31,10 +31,10 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
     static private let caloricBurnRange = 0...999
 
     @Published public var duration: TimeInterval?
-    static private let durationRange = 0.0...999.0
+    static private let durationStartRange = 0.0...10.0
 
     @Published public var tripDistance: Double?
-    static private let tripDistanceRange = 0.0...999.0
+    static private let tripStartDistanceRange = 0.0...5.0
 
     @Published public var gear: Int?
     static private let gearRange = 0...24
@@ -169,17 +169,17 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
                 self.gear! += 1
             }
             if(self.cadence! < KeiserBike.cadenceRange.upperBound) {
-                self.cadence! += Int.random(in: 0...100) + 1
+                self.cadence! += Int.random(in: 0...100)
             }
-            self.heartRate! += Int.random(in: 0...20) + 1 + 11
+            self.heartRate! += Int.random(in: 0...20)
         } else if (ep == -1) {
              if (self.gear! > KeiserBike.gearRange.lowerBound) {
                 self.gear! -= 1
             }
             if(self.cadence! > KeiserBike.cadenceRange.lowerBound) {
-                self.cadence! = max(KeiserBike.cadenceRange.lowerBound, self.cadence! - Int.random(in: 0...100) + 1)
+                self.cadence! = max(KeiserBike.cadenceRange.lowerBound, self.cadence! - Int.random(in: 0...100))
             }
-            self.heartRate! -= Int.random(in: 0...20) + 1 + 11
+            self.heartRate! -= Int.random(in: 0...20)
         }
 
         self.power = Int(Float(self.gear!) / 64.0 * Float(self.cadence!))
@@ -187,11 +187,7 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
         self.caloricBurn! += Int.random(in: 0...10)
         
         self.duration = self.duration! + TimeInterval(1)
-        self.tripDistance = Double(self.power! / 1000)
-    }
-    
-    public override var description: String {
-        return "[Bike: \(self.ordinalId)] cdn: \(self.cadence). hr: \(heartRate). power: \(power). caloricBurn: \(caloricBurn). dur: \(duration). tripDistance: \(tripDistance). gear: \(gear)"
+        self.tripDistance = self.tripDistance! + Double.random(in: 0.001...0.009)
     }
     
     static func fakeRandomBike() -> KeiserBike {
@@ -208,8 +204,8 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
             heartRate: Int.random(in: KeiserBike.heartRateRange),
             power: Int.random(in: KeiserBike.powerRange),
             caloricBurn: Int.random(in: KeiserBike.caloricBurnRange),
-            duration: TimeInterval(Double.random(in: KeiserBike.durationRange)),
-            tripDistance: Double.random(in: KeiserBike.tripDistanceRange),
+            duration: TimeInterval(Double.random(in: KeiserBike.durationStartRange)),
+            tripDistance: Double.random(in: KeiserBike.tripStartDistanceRange),
             gear: Int.random(in: KeiserBike.gearRange)
         )
     }

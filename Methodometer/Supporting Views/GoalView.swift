@@ -10,44 +10,66 @@ import SwiftUI
 
 struct GoalView: View {
     
-    @EnvironmentObject var goal: Goal
     @Environment(\.presentationMode) var presentationMode
-    
-    func secondsToMinutes(_ seconds: Int) -> Int {
-        return Int(seconds / 60)
-    }
-    
-    // self.odometer += self.distance / self.duration
+    @Environment(\.managedObjectContext) var context
+
+    @EnvironmentObject var goal: Goal
+    @EnvironmentObject var kbm: KeiserBikeManager
+
+    @State private var coachName: String = ""
+    @State private var dateStarted = Date()
+    @State private var selectedBike = 0
+
+    /*
+    func addWorkout() {
+        let newWorkout = Workout(context: context)
+        newWorkout.id = UUID()
+        newWorkout.dateStarted = Date()
+        newWorkout.coachName = coachName
+
+        do {
+            try context.save()
+        } catch {
+            print(error)
+        }
+    }*/
     
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
-            VStack(alignment: .leading) {
-                VStack(alignment: .leading) {
-                    Text("Duration: \(self.secondsToMinutes(Int(goal.duration))):00")
-                        .font(.headline)
-                    Text("Minutes")
-                        .font(.footnote)
-                        .fontWeight(.light)
-                    Slider(value: $goal.duration, in: 0.0...7200.0, step: 60)
+        VStack(alignment: .leading) {
+            Text("New Workout")
+                .font(.title)
+                .padding(.bottom, 25)
+
+            TextField("Coach Name", text: self.$coachName)
+            
+            Text("\(self.kbm.bikes.count)")
+            DatePicker("", selection: self.$dateStarted, in: Date()...)
+                .labelsHidden()
+                .frame(height: 125)
+                .clipped()
+            
+            Text("Bike")
+            Picker(selection: $selectedBike, label: Text("")) {
+                ForEach(self.kbm.bikes, id: \.ordinalId) { bike in
+                    Text("\(bike.ordinalId)").tag(bike.ordinalId)
                 }
-                VStack(alignment: .leading) {
-                    Text("Distance: \(goal.distance, specifier: "%.2f")")
-                        .font(.headline)
-                    Text("Miles")
-                        .font(.footnote)
-                        .fontWeight(.light)
-                    Slider(value: $goal.distance, in: 0.0...40.0, step: 0.1)
-                }
-            }
-            .padding(.bottom, 25)
+            }.id(self.kbm.bikes)
             
             Button(action: {
+                self.goal.startWorkout(
+                    context: self.context,
+                    workout: Workout.createWorkout(
+                        context: self.context,
+                        dateStarted: self.dateStarted,
+                        coachName: self.coachName
+                    ),
+                    myBikeID: self.selectedBike,
+                    kbm: self.kbm
+                )
                 self.presentationMode.wrappedValue.dismiss()
             }) {
                 Text("GO!")
             }
-            
-            Spacer()
         }
         .padding()
     }
@@ -55,6 +77,10 @@ struct GoalView: View {
 
 struct GoalView_Previews: PreviewProvider {
     static var previews: some View {
+        let goal: Goal = Goal()
+        goal.status = GoalStatus.running
         return GoalView()
+            .environmentObject(goal)
+            .environmentObject(KeiserBikeManager(simulated: true))
     }
 }

@@ -9,67 +9,55 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @Environment(\.managedObjectContext) var context
+    
+    @ObservedObject var kbm = KeiserBikeManager(simulated: true)
+    
     @State var mode = KeiserBikeManagerType.none
+    @State var goal = Goal()
+    
+    @State private var coachName: String = ""
+    @State private var showModal: Bool = false
+
+    @FetchRequest(
+        entity: Workout.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Workout.dateStarted, ascending: false)]
+    ) var completedWorkouts: FetchedResults<Workout>
 
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
-            HStack {
-                if (self.mode == KeiserBikeManagerType.live) {
-                    KeiserBikeListView()
-                        .environmentObject(KeiserBikeManager())
-                        .animation(.spring())
-                        .transition(.slide)
-                } else if (self.mode == KeiserBikeManagerType.demo) {
-                    KeiserBikeListView()
-                        .environmentObject(KeiserBikeManager(simulated: true))
-                        .animation(.spring())
-                        .transition(.slide)
-                } else {
-                    HStack {
-                        Button(action: {
-                            withAnimation {
-                                self.mode = KeiserBikeManagerType.live
-                            }
-                        }) {
-                            HStack {
-                                Image(systemName: "bolt.circle")
-                                    .font(.title)
-                                Text("LIVE!")
-                                    .fontWeight(.semibold)
-                                    .font(.subheadline)
-                            }
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.green)
-                            .cornerRadius(40)
-                        }.animation(.none)
-                        
-                        Button(action: {
-                            withAnimation {
-                                self.mode = KeiserBikeManagerType.demo
-                            }
-                        }) {
-                            HStack {
-                                Image(systemName: "bolt.circle")
-                                    .font(.title)
-                                Text("DEMO!")
-                                    .fontWeight(.semibold)
-                                    .font(.subheadline)
-                            }
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.gray)
-                            .cornerRadius(40)
-                        }.animation(.none)
+        NavigationView {
+            VStack(alignment: .center, spacing: 0) {
+                List {
+                    ForEach(completedWorkouts){ workout in
+                        WorkoutRowView(workout: workout)
                     }
                 }
             }
+            .navigationBarTitle(Text("Methodometer"), displayMode: .inline)
+            .navigationBarItems(leading:
+                NavigationLink(destination: GoalView()
+                    .environment(\.managedObjectContext, self.context)
+                    .environmentObject(self.goal)
+                    .environmentObject(self.kbm)
+                ) {
+                    Image(systemName: "plus.circle")
+                }
+                .animation(.none)
+                .frame(width: 25, height: 25)
+            )
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        return ContentView()
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        for _ in 0...Int.random(in: 0...10) {
+            Workout.randomWorkout(context: context)
+        }
+
+        return ContentView().environment(\.managedObjectContext, context)
     }
 }
