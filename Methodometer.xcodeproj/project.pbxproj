@@ -27,6 +27,12 @@
 		91FA82182401A56B0026C123 /* GoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA82172401A56B0026C123 /* GoalView.swift */; };
 		91FA821A2401BF300026C123 /* CircleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA82192401BF2F0026C123 /* CircleButtonStyle.swift */; };
 		91FA821C2401C4BF0026C123 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA821B2401C4BF0026C123 /* Goal.swift */; };
+		91FA8226240303130026C123 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA8225240303130026C123 /* Time.swift */; };
+		91FA82292403CC340026C123 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FA82282403CC340026C123 /* HealthKit.framework */; };
+		91FA822B240691320026C123 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA822A240691320026C123 /* HealthKitManager.swift */; };
+		91FA82AB240B90220026C123 /* Workout+Ride.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA82AA240B90220026C123 /* Workout+Ride.swift */; };
+		91FA82AD240BC5080026C123 /* WorkoutRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA82AC240BC5080026C123 /* WorkoutRowView.swift */; };
+		91FA82B1240FB8DE0026C123 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA82B0240FB8DE0026C123 /* Random.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +80,12 @@
 		91FA82172401A56B0026C123 /* GoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalView.swift; sourceTree = "<group>"; };
 		91FA82192401BF2F0026C123 /* CircleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButtonStyle.swift; sourceTree = "<group>"; };
 		91FA821B2401C4BF0026C123 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
+		91FA8225240303130026C123 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		91FA82282403CC340026C123 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		91FA822A240691320026C123 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		91FA82AA240B90220026C123 /* Workout+Ride.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workout+Ride.swift"; sourceTree = "<group>"; };
+		91FA82AC240BC5080026C123 /* WorkoutRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRowView.swift; sourceTree = "<group>"; };
+		91FA82B0240FB8DE0026C123 /* Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91FA82292403CC340026C123 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,11 +130,12 @@
 				9100D8C523F9AAC100F38CDF /* KeiserBikeDetailView.swift */,
 				91FA82172401A56B0026C123 /* GoalView.swift */,
 				91FA82192401BF2F0026C123 /* CircleButtonStyle.swift */,
+				91FA82AC240BC5080026C123 /* WorkoutRowView.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
 		};
-		9117810B23F66776009F9BBD /* Models */ = {
+		9117810B23F66776009F9BBD /* Models+Utils */ = {
 			isa = PBXGroup;
 			children = (
 				913628EA23FD0DCB00AB9338 /* BLEPeripheral.swift */,
@@ -129,8 +143,11 @@
 				913628EC23FD0F5100AB9338 /* KeiserBikeManager.swift */,
 				9117810E23F66917009F9BBD /* KeiserBike.swift */,
 				91FA821B2401C4BF0026C123 /* Goal.swift */,
+				91FA822A240691320026C123 /* HealthKitManager.swift */,
+				91FA82AA240B90220026C123 /* Workout+Ride.swift */,
+				91FA82B0240FB8DE0026C123 /* Random.swift */,
 			);
-			path = Models;
+			path = "Models+Utils";
 			sourceTree = "<group>";
 		};
 		91DC3C6523F3AFE900FD70CC = {
@@ -140,6 +157,7 @@
 				91DC3C8A23F3AFEC00FD70CC /* MethodometerTests */,
 				91DC3C9523F3AFEC00FD70CC /* MethodometerUITests */,
 				91DC3C6F23F3AFE900FD70CC /* Products */,
+				91FA82272403CC340026C123 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,13 +174,14 @@
 		91DC3C7023F3AFE900FD70CC /* Methodometer */ = {
 			isa = PBXGroup;
 			children = (
+				91FA8224240303000026C123 /* Utilities */,
 				9117811023F66FCE009F9BBD /* Methodometer.entitlements */,
 				91DC3C7A23F3AFEC00FD70CC /* Assets.xcassets */,
 				91DC3C7F23F3AFEC00FD70CC /* LaunchScreen.storyboard */,
 				91DC3C8223F3AFEC00FD70CC /* Info.plist */,
 				91DC3C7523F3AFE900FD70CC /* Methodometer.xcdatamodeld */,
 				9100D8BD23F9185800F38CDF /* Resources */,
-				9117810B23F66776009F9BBD /* Models */,
+				9117810B23F66776009F9BBD /* Models+Utils */,
 				9100D8C423F9AA7500F38CDF /* Supporting Views */,
 				91DC3C7123F3AFE900FD70CC /* AppDelegate.swift */,
 				91DC3C7323F3AFE900FD70CC /* SceneDelegate.swift */,
@@ -196,6 +215,22 @@
 				91DC3C9823F3AFEC00FD70CC /* Info.plist */,
 			);
 			path = MethodometerUITests;
+			sourceTree = "<group>";
+		};
+		91FA8224240303000026C123 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				91FA8225240303130026C123 /* Time.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		91FA82272403CC340026C123 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				91FA82282403CC340026C123 /* HealthKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -331,17 +366,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91FA82AD240BC5080026C123 /* WorkoutRowView.swift in Sources */,
 				913628EB23FD0DCB00AB9338 /* BLEPeripheral.swift in Sources */,
 				913628ED23FD0F5100AB9338 /* KeiserBikeManager.swift in Sources */,
+				91FA8226240303130026C123 /* Time.swift in Sources */,
+				91FA82AB240B90220026C123 /* Workout+Ride.swift in Sources */,
 				9117810F23F66917009F9BBD /* KeiserBike.swift in Sources */,
 				9100D8C623F9AAC100F38CDF /* KeiserBikeDetailView.swift in Sources */,
 				91DC3C7223F3AFE900FD70CC /* AppDelegate.swift in Sources */,
+				91FA82B1240FB8DE0026C123 /* Random.swift in Sources */,
 				9100D8C123F91EBD00F38CDF /* BLEData.swift in Sources */,
 				91FA82182401A56B0026C123 /* GoalView.swift in Sources */,
 				9117811223F87441009F9BBD /* KeiserBikeListView.swift in Sources */,
 				91FA821C2401C4BF0026C123 /* Goal.swift in Sources */,
 				91DC3C7423F3AFE900FD70CC /* SceneDelegate.swift in Sources */,
 				91FA821A2401BF300026C123 /* CircleButtonStyle.swift in Sources */,
+				91FA822B240691320026C123 /* HealthKitManager.swift in Sources */,
 				91DC3C7923F3AFE900FD70CC /* ContentView.swift in Sources */,
 				91DC3C7723F3AFE900FD70CC /* Methodometer.xcdatamodeld in Sources */,
 			);
