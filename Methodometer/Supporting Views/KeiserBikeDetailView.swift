@@ -10,7 +10,7 @@ import SwiftUI
 
 struct KeiserBikeDetailView: View {
     @EnvironmentObject var bike: KeiserBike
-    @EnvironmentObject var goal: Goal
+    @EnvironmentObject var goal: Session
 
     @State private var showModal: Bool = false
     
@@ -28,41 +28,6 @@ struct KeiserBikeDetailView: View {
                         .italic()
                 }
                 Spacer()
-                Button(action: {
-                    // has *a* bike
-                    if self.goal.hasBike() {
-                        // but is it the right bike?
-                        if (self.goal.isValidForBike(self.bike)) {
-                            // probbly something useful to show
-                        }
-                    } else {
-                        self.showModal = true
-                    }
-                }) {
-                    // has *a* bike
-                    if self.goal.hasBike() {
-                        // but is it the right bike?
-                        if (self.goal.isValidForBike(self.bike)) {
-                            Image(systemName: "bolt.circle.fill")
-                                .foregroundColor(.green)
-                        } else {
-                            Image(systemName: "bolt.circle")
-                            .foregroundColor(.gray)
-                        }
-                    } else {
-                        Image(systemName: "bolt.circle")
-                        .foregroundColor(.green)
-                    }
-                    
-                }
-                .animation(.none)
-                .frame(width: 25, height: 25)
-                .buttonStyle(CircleButtonStyle())
-                .sheet(isPresented: self.$showModal) {
-                    GoalView()
-                        .environmentObject(self.goal)
-                        //.environmentObject(self.bike)
-                }
             }
             .padding(.bottom, 25)
             
@@ -132,88 +97,6 @@ struct KeiserBikeDetailView: View {
             }
             .padding(.bottom, 25)
             
-            if (self.goal.isValidForBike(bike)) {
-                HStack() {
-                    VStack(alignment: .center) {
-                        Text("Goal Details")
-                            .font(.callout)
-                            .fontWeight(.heavy)
-                    }
-                    Spacer()
-                }
-                .padding(.bottom, 25)
-                
-                VStack {
-                    HStack() {
-                        Spacer()
-                        VStack(alignment: .center) {
-                            Text("\(self.goal.elapsedDistance, specifier: "%02.2f") Miles")
-                                .font(.largeTitle)
-                                .fontWeight(.heavy)
-                                .foregroundColor(self.goal.onTarget() ? .green : .red)
-                            Text("Elapsed Distance")
-                                .font(.subheadline)
-                                .fontWeight(.light)
-                                .foregroundColor(.gray)
-                                .italic()
-                        }
-                        Spacer()
-                    }
-                    .padding(.bottom, 25)
-                    
-                    HStack(alignment: .top) {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("\(secondsToString(self.goal.elapsedDuration))")
-                                    .font(.headline)
-                                    .fontWeight(.heavy)
-                            }
-                            Text("Elapsed Duration")
-                                .font(.subheadline)
-                                .fontWeight(.light)
-                                .foregroundColor(.gray)
-                                .italic()
-                        }
-                        Spacer()
-                        VStack(alignment: .trailing) {
-                            Text("\(self.goal.targetDistance, specifier: "%02.2f") Miles")
-                                .font(.headline)
-                                .fontWeight(.heavy)
-                            Text("Goal Target Distance")
-                                .font(.subheadline)
-                                .fontWeight(.light)
-                                .foregroundColor(.gray)
-                                .italic()
-                        }
-                    }
-                    .padding(.bottom, 25)
-                    
-                    HStack(alignment: .top) {
-                        VStack(alignment: .leading) {
-                            Text("\(secondsToString(Int(self.goal.duration)))")
-                                  .font(.headline)
-                                  .fontWeight(.heavy)
-                            Text("Goal Duration")
-                                .font(.subheadline)
-                                .fontWeight(.light)
-                                .foregroundColor(.gray)
-                                .italic()
-                        }
-                        Spacer()
-                        VStack(alignment: .trailing) {
-                            Text("\(self.goal.distance, specifier: "%02.2f") Miles")
-                                .font(.headline)
-                                .fontWeight(.heavy)
-                            Text("Goal Distance")
-                                .font(.subheadline)
-                                .fontWeight(.light)
-                                .foregroundColor(.gray)
-                                .italic()
-                        }
-                    }
-                    .padding(.bottom, 25)
-                }
-            }
             Spacer()
         }
         .padding()
@@ -223,7 +106,7 @@ struct KeiserBikeDetailView: View {
 
 struct KeiserBikeDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let goal: Goal = Goal()
+        let goal: Session = Session()
         goal.status = GoalStatus.running
         return KeiserBikeDetailView()
             .environmentObject(KeiserBike.fakeRandomBike())

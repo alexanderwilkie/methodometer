@@ -37,7 +37,7 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
     static private let tripStartDistanceRange = 0.0...5.0
 
     @Published public var gear: Int?
-    static private let gearRange = 0...24
+    static private let gearRange = 6...24
     
     init(_ data: Data) {
         self.id = 0
@@ -152,30 +152,21 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
         // Add the idea of bikes not updating to simulate them dropping out - will need same mechanism
         // in real life to cull bikes not updated in X seconds...
         //
-        var effortPredictor: Int {
-            let e = Int.random(in: 0...100) + 1
-            if (e >= 60) {
-                return 1
-            } else if (e >= 40) {
-                return 0
-            } else {
-                return -1
-            }
-        }
-        
-        let ep = effortPredictor
-        if (ep == 1) {
-            if (self.gear! < KeiserBike.gearRange.upperBound) {
-                self.gear! += 1
-            }
+
+        if (Int.random(in: 0...1) == 1) {
+            self.gear! = min(KeiserBike.gearRange.upperBound, self.gear! + 1)
+
             if(self.cadence! < KeiserBike.cadenceRange.upperBound) {
                 self.cadence! += Int.random(in: 0...100)
             }
             self.heartRate! += Int.random(in: 0...20)
-        } else if (ep == -1) {
-             if (self.gear! > KeiserBike.gearRange.lowerBound) {
-                self.gear! -= 1
-            }
+            
+            // hack to avoid macking this a float - don't burn 1 calorie a second in real life...
+            // only update it some of the time.
+            self.caloricBurn! += Int.random(in: 0...1)
+        } else {
+            self.gear! = max(KeiserBike.gearRange.lowerBound, self.gear! - 1)
+            
             if(self.cadence! > KeiserBike.cadenceRange.lowerBound) {
                 self.cadence! = max(KeiserBike.cadenceRange.lowerBound, self.cadence! - Int.random(in: 0...100))
             }
@@ -184,8 +175,6 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
 
         self.power = Int(Float(self.gear!) / 64.0 * Float(self.cadence!))
 
-        self.caloricBurn! += Int.random(in: 0...10)
-        
         self.duration = self.duration! + TimeInterval(1)
         self.tripDistance = self.tripDistance! + Double.random(in: 0.001...0.009)
     }
@@ -206,7 +195,12 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
             caloricBurn: Int.random(in: KeiserBike.caloricBurnRange),
             duration: TimeInterval(Double.random(in: KeiserBike.durationStartRange)),
             tripDistance: Double.random(in: KeiserBike.tripStartDistanceRange),
-            gear: Int.random(in: KeiserBike.gearRange)
+            gear: Int.random(in: 8...12)
         )
+    }
+    
+    static func makeWorkout() {
+        // warmup
+        
     }
 }

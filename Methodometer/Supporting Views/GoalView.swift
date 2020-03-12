@@ -11,28 +11,12 @@ import SwiftUI
 struct GoalView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @Environment(\.managedObjectContext) var context
 
-    @EnvironmentObject var goal: Goal
-    @EnvironmentObject var kbm: KeiserBikeManager
+    @EnvironmentObject var goal: Session
+    static let kbm = KeiserBikeManager(simulated: true)
 
     @State private var coachName: String = ""
-    @State private var dateStarted = Date()
     @State private var selectedBike = 0
-
-    /*
-    func addWorkout() {
-        let newWorkout = Workout(context: context)
-        newWorkout.id = UUID()
-        newWorkout.dateStarted = Date()
-        newWorkout.coachName = coachName
-
-        do {
-            try context.save()
-        } catch {
-            print(error)
-        }
-    }*/
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -42,29 +26,19 @@ struct GoalView: View {
 
             TextField("Coach Name", text: self.$coachName)
             
-            Text("\(self.kbm.bikes.count)")
-            DatePicker("", selection: self.$dateStarted, in: Date()...)
-                .labelsHidden()
-                .frame(height: 125)
-                .clipped()
-            
             Text("Bike")
             Picker(selection: $selectedBike, label: Text("")) {
-                ForEach(self.kbm.bikes, id: \.ordinalId) { bike in
+                ForEach(GoalView.kbm.bikes, id: \.ordinalId) { bike in
                     Text("\(bike.ordinalId)").tag(bike.ordinalId)
                 }
-            }.id(self.kbm.bikes)
+            }.id(GoalView.kbm.bikes) // this is to make sure it redraws as bikes come on line...
             
             Button(action: {
-                self.goal.startWorkout(
-                    context: self.context,
-                    workout: Workout.createWorkout(
-                        context: self.context,
-                        dateStarted: self.dateStarted,
-                        coachName: self.coachName
-                    ),
+                self.goal.startSession(
+                    coachName: self.coachName,
                     myBikeID: self.selectedBike,
-                    kbm: self.kbm
+                    kbm: GoalView.kbm,
+                    live: true
                 )
                 self.presentationMode.wrappedValue.dismiss()
             }) {
@@ -77,7 +51,7 @@ struct GoalView: View {
 
 struct GoalView_Previews: PreviewProvider {
     static var previews: some View {
-        let goal: Goal = Goal()
+        let goal: Session = Session()
         goal.status = GoalStatus.running
         return GoalView()
             .environmentObject(goal)

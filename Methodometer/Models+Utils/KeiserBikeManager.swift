@@ -20,7 +20,6 @@ class KeiserBikeManager: NSObject, Identifiable, ObservableObject, CBCentralMana
     var timer: Timer?
     var simulationCount = 0
     let bikeRange = 1...32
-    let initialBikeCount = 5...20
     
     var centralManager: CBCentralManager!
     var peripheralName: String?
@@ -102,48 +101,21 @@ class KeiserBikeManager: NSObject, Identifiable, ObservableObject, CBCentralMana
         }
     }
     
-    private func startFakeSession(interval: Int = 7200) {
+    private func startFakeSession() {
         
-        // Start with around 5-15 bikes between bikes 1 and 32
-        for _ in 1...Int.random(in: initialBikeCount) {
-            let kb = KeiserBike.fakeRandomBike(ordinalID: Int.random(in: bikeRange))
-            self.foundBikes[kb.id] = kb
+        for x in uniqueRandoms(numberOfRandoms: Int.random(in: 12...30), range: 1...32) {
+            self.foundBikes[x] = KeiserBike.fakeRandomBike(ordinalID: x)
+            os_log("[DEBUG] Adding Bike %d to the session taking total bikes to %d!", log: .default, type: .debug, x, self.foundBikes.count)
         }
         
         os_log("[DEBUG] Added %d to the initial session!", log: .default, type: .debug, self.foundBikes.count)
         
-        self.timer = Timer(timeInterval: 1.0, target: self, selector: #selector(fireFakeSession), userInfo: nil, repeats: true)
+        self.timer = Timer(timeInterval: 1.0, target: self, selector: #selector(fireFakeBikeUpdate), userInfo: nil, repeats: true)
         RunLoop.main.add(self.timer!, forMode: .common)
     }
         
-    @objc func fireFakeSession() {
+    @objc func fireFakeBikeUpdate(interval: TimeInterval = 7200) {
         simulationCount += 1
-       
-        // Give a 70% chance of new bikes showing up for first % of session...
-        if simulationCount < Int((Float(7200) / 100.0) * 2) {
-            if (Int.random(in: 0...10) > 3) {
-                let kb = KeiserBike.fakeRandomBike(ordinalID: Int.random(in: bikeRange))
-                if let _ = self.foundBikes[kb.id] {
-                    os_log("[DEBUG] Bike %d already in the session!", log: .default, type: .debug, kb.id)
-                } else {
-                    self.foundBikes[kb.id] = kb
-                    os_log("[DEBUG] Adding Bike %d to the session taking total bikes to %d!", log: .default, type: .debug, kb.id, self.foundBikes.count)
-                }
-            }
-        } else if simulationCount > 7200 {
-            for i in self.foundBikes.keys {
-                if (Int.random(in: 0...10) > 6) {
-                    os_log("[DEBUG] Session over - Bike %d stopping now!", log: .default, type: .debug, i)
-                    self.foundBikes.removeValue(forKey: i)
-                }
-            }
-            
-            if (self.foundBikes.isEmpty) {
-                os_log("[DEBUG] All bikes have finished simulating - ending session!", log: .default, type: .debug)
-                stopFakeSession()
-            }
-        }
-        
         for (_, kb) in self.foundBikes {
             kb.simulate()
         }

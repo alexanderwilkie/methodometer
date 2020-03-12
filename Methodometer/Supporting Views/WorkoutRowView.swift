@@ -9,18 +9,19 @@
 import SwiftUI
 
 struct WorkoutRowView: View {
-    var workout: Workout
+    @EnvironmentObject var workout: Workout
     
     static let dateFormat: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
         return formatter
     }()
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("\(workout.dateStarted!, formatter: Self.dateFormat) - \(workout.coachName!)")
+                Text("\(workout.dateStarted!, formatter: WorkoutRowView.dateFormat) - \(workout.coachName!)")
                 
                 if (workout.hasMyRide) {
                     HStack {
@@ -38,7 +39,7 @@ struct WorkoutRowView: View {
 
 struct WorkoutRowView_Previews: PreviewProvider {
     static var previews: some View {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        return WorkoutRowView(workout: Workout.randomWorkout(context: context))
+        return WorkoutRowView().environmentObject(Workout.createDummyWorkout())
+            .previewLayout(.fixed(width: 300, height: 70))
     }
 }

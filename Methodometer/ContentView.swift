@@ -11,11 +11,9 @@ import SwiftUI
 struct ContentView: View {
     
     @Environment(\.managedObjectContext) var context
-    
-    @ObservedObject var kbm = KeiserBikeManager(simulated: true)
-    
+        
     @State var mode = KeiserBikeManagerType.none
-    @State var goal = Goal()
+    @State var goal = Session()
     
     @State private var coachName: String = ""
     @State private var showModal: Bool = false
@@ -29,9 +27,13 @@ struct ContentView: View {
         NavigationView {
             VStack(alignment: .center, spacing: 0) {
                 List {
-                    ForEach(completedWorkouts){ workout in
-                        WorkoutRowView(workout: workout)
-                    }
+                    ForEach(completedWorkouts) { workout in
+                        NavigationLink(destination: WorkoutDetailView()
+                                .environmentObject(workout)) {
+                            WorkoutRowView()
+                                .environmentObject(workout)
+                        }
+                    }.onDelete(perform: removeWorkout)
                 }
             }
             .navigationBarTitle(Text("Methodometer"), displayMode: .inline)
@@ -39,7 +41,6 @@ struct ContentView: View {
                 NavigationLink(destination: GoalView()
                     .environment(\.managedObjectContext, self.context)
                     .environmentObject(self.goal)
-                    .environmentObject(self.kbm)
                 ) {
                     Image(systemName: "plus.circle")
                 }
@@ -48,16 +49,25 @@ struct ContentView: View {
             )
         }
     }
+    
+    func removeWorkout(at offsets: IndexSet) {
+        for index in offsets {
+            context.delete(completedWorkouts[index])
+        }
+        do {
+            try context.save()
+        } catch {
+            // handle the Core Data error
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        
         for _ in 0...Int.random(in: 0...10) {
-            Workout.randomWorkout(context: context)
+            Session.fakeSession()
         }
-
         return ContentView().environment(\.managedObjectContext, context)
     }
 }
