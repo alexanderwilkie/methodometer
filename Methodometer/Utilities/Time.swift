@@ -17,5 +17,6 @@ func secondsToMinutes(_ seconds: Float) -> Int {
 }
 
 public func secondsToString(_ seconds: Int) -> String {
+    print(seconds)
     return String(format: "%02d:%02d", secondsToMinutes(seconds), seconds - secondsToMinutes(seconds) * 60)
 }

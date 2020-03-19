@@ -19,7 +19,6 @@ struct SelectRideModal: View {
     
     init(_ selectedRides: SelectedRides) {
         self.selectedRides = selectedRides
-        print(selectedRides.rides)
     }
     
     var body: some View {
@@ -50,7 +49,13 @@ struct SelectRideModal: View {
                         .id(self.hackyHash)
                 }
             }.onAppear(perform: {
-                self.selections = self.selectedRides.rides
+                if (self.selectedRides.rides.isEmpty) {
+                    for ride in self.workout.topRides() {
+                        self.selections.append(ride)
+                    }
+                } else {
+                    self.selections = self.selectedRides.rides
+                }
                 self.hackyHash = Int.random(in: 0...999)
             })
         }

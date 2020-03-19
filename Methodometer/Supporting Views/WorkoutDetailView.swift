@@ -12,10 +12,16 @@ struct WorkoutDetailView: View {
     @EnvironmentObject var workout: Workout
     
     @State private var showRideSelectSheet = false
-    @ObservedObject var selectedRides = SelectedRides()
+    @ObservedObject var selectedRides: SelectedRides
     
     @State private var offset: CGFloat = 0
     @State private var index = 0
+    
+    private let sectionHeight: CGFloat = 400
+    
+    init(selectedRides: SelectedRides = SelectedRides()) {
+        self.selectedRides = selectedRides
+    }
     
     @State private var indexTitle: String = "Gear"
     let indexTitles: [String] = [
@@ -45,6 +51,9 @@ struct WorkoutDetailView: View {
 
     var body: some View {
         VStack {
+            if (workout.managedObjectContext == nil) {
+                EmptyView()
+            } else {
             VStack {
                 VStack(alignment: .leading) {
                     Text("\(workout.dateStarted!, formatter: WorkoutRowView.dateFormat)")
@@ -131,134 +140,250 @@ struct WorkoutDetailView: View {
                 }
             }
             GeometryReader { geometry in
-                ScrollView(.horizontal, showsIndicators: true) {
-                    HStack(spacing: 10) {
-                        ZStack(alignment: .top) {
-                            ForEach(self.selectedRides.rides) { ride in
-                                LineGraphLine(
-                                    array: ride.gearArray!.map({ Double($0) }),
-                                    color: self.colorForRide(ride),
-                                    xOffset: self.xOffset(ride),
-                                    widthDivisor: self.widthDivisor,
-                                    heightDivisor: CGFloat(24),
-                                    frameWidth: geometry.size.width,
-                                    frameHeight: geometry.size.height
-                                )
-                            }
-                            LineGraphGrid(
-                                ySeries: 1...24,
-                                frameWidth: geometry.size.width,
-                                frameHeight: geometry.size.height
-                            )
-                        }.frame(width: geometry.size.width)
+                ScrollView(showsIndicators: true) {
+                    VStack(spacing: 20) {
                         
-                        ZStack {
-                            ForEach(self.selectedRides.rides) { ride in
-                                LineGraphLine(
-                                    array: ride.elapsedDistance!,
-                                    color: self.colorForRide(ride),
-                                    xOffset: self.xOffset(ride),
-                                    widthDivisor: self.widthDivisor,
-                                    heightDivisor: CGFloat(self.workout.maxDistance),
+                        VStack {
+                            ZStack {
+                                ForEach(self.selectedRides.rides) { ride in
+                                    LineGraphLine(
+                                        array: ride.gearArray!.map({ Double($0) }),
+                                        color: self.colorForRide(ride),
+                                        xOffset: self.xOffset(ride),
+                                        widthDivisor: self.widthDivisor,
+                                        heightDivisor: CGFloat(24),
+                                        frameWidth: geometry.size.width,
+                                        frameHeight: self.sectionHeight
+                                    )
+                                }
+                                LineGraphGrid(
+                                    ySeries: 1...24,
                                     frameWidth: geometry.size.width,
-                                    frameHeight: geometry.size.height
+                                    frameHeight: self.sectionHeight
                                 )
-                            }
-                            LineGraphGrid(
-                                ySeries: 0...Int(self.workout.maxDistance.rounded(.up)),
-                                frameWidth: geometry.size.width,
-                                frameHeight: geometry.size.height
-                            )
-                        }.frame(width: geometry.size.width)
+                            }.frame(width: geometry.size.width, height: self.sectionHeight)
                         
-                        ZStack {
-                            ForEach(self.selectedRides.rides) { ride in
-                                LineGraphLine(
-                                    array: ride.powerArray!.map({ Double($0) }),
-                                    color: self.colorForRide(ride),
-                                    xOffset: self.xOffset(ride),
-                                    widthDivisor: self.widthDivisor,
-                                    heightDivisor: CGFloat(self.workout.maxPower),
-                                    frameWidth: geometry.size.width,
-                                    frameHeight: geometry.size.height
-                                )
-                            }
-                            LineGraphGrid(
-                                ySeries: 0...self.workout.maxPower,
-                                yStep: 5,
-                                frameWidth: geometry.size.width,
-                                frameHeight: geometry.size.height
-                            )
-                        }.frame(width: geometry.size.width)
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("Bike")
+                                    Divider()
+                                    Text("Max")
+                                    Divider()
+                                    Text("Avg")
+                                    Divider()
+                                    Text("Min")
+                                }.frame(width: geometry.size.width / 5)
+                                HStack {
+                                    ForEach(self.selectedRides.rides) { ride in
+                                        VStack(alignment: .leading) {
+                                            Text("\(ride.bikeID)")
+                                                .font(.headline)
+                                                .fontWeight(.heavy)
+                                            Divider()
+                                            Text("\(ride.maxGear)")
+                                            Divider()
+                                            Text("\(ride.avgGear)")
+                                            Divider()
+                                            Text("\(ride.minGear)")
+                                        }
+                                    }
+                                }
+                            }.padding()
+                        }
                         
-                        ZStack {
-                            ForEach(self.selectedRides.rides) { ride in
-                                LineGraphLine(
-                                    array: ride.cadenceArray!.map({ Double($0) }),
-                                    color: self.colorForRide(ride),
-                                    xOffset: self.xOffset(ride),
-                                    widthDivisor: self.widthDivisor,
-                                    heightDivisor: CGFloat(self.workout.maxCadence),
+                        VStack {
+                            ZStack {
+                                ForEach(self.selectedRides.rides) { ride in
+                                    LineGraphLine(
+                                        array: ride.paceArray,
+                                        color: self.colorForRide(ride),
+                                        xOffset: self.xOffset(ride),
+                                        widthDivisor: self.widthDivisor,
+                                        heightDivisor: CGFloat(3),
+                                        frameWidth: geometry.size.width,
+                                        frameHeight: self.sectionHeight
+                                    )
+                                }
+                                LineGraphGrid(
+                                    ySeries: 2...4,
                                     frameWidth: geometry.size.width,
-                                    frameHeight: geometry.size.height
+                                    frameHeight: self.sectionHeight
                                 )
-                            }
-                            LineGraphGrid(
-                                ySeries: 0...self.workout.maxCadence,
-                                yStep: 10,
-                                frameWidth: geometry.size.width,
-                                frameHeight: geometry.size.height
-                            )
-                        }.frame(width: geometry.size.width)
+                            }.frame(width: geometry.size.width, height: self.sectionHeight)
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("Bike")
+                                    Divider()
+                                    Text("Max")
+                                    Divider()
+                                    Text("Avg")
+                                    Divider()
+                                    Text("Min")
+                                }.frame(width: geometry.size.width / 5)
+                                HStack {
+                                    ForEach(self.selectedRides.rides) { ride in
+                                        VStack(alignment: .leading) {
+                                            Text("\(ride.bikeID)")
+                                                .font(.headline)
+                                                .fontWeight(.heavy)
+                                            Divider()
+                                            Text("\(ride.maxPace, specifier: "%02.2f")/m")
+                                            Divider()
+                                            Text("\(ride.avgPace, specifier: "%02.2f")/m")
+                                            Divider()
+                                            Text("\(ride.minPace, specifier: "%02.2f")/m")
+                                        }
+                                    }
+                                }
+                            }.padding()
+                        }
                         
-                        ZStack {
-                            ForEach(self.selectedRides.rides) { ride in
-                                LineGraphLine(
-                                    array: ride.caloricBurnArray!.map({ Double($0) }),
-                                    color: self.colorForRide(ride),
-                                    xOffset: self.xOffset(ride),
-                                    widthDivisor: self.widthDivisor,
-                                    heightDivisor: CGFloat(self.workout.maxCaloricBurn),
+                        VStack {
+                            ZStack {
+                                ForEach(self.selectedRides.rides) { ride in
+                                    LineGraphLine(
+                                        array: ride.elapsedDistanceArray!,
+                                        color: self.colorForRide(ride),
+                                        xOffset: self.xOffset(ride),
+                                        widthDivisor: self.widthDivisor,
+                                        heightDivisor: CGFloat(self.workout.maxDistance),
+                                        frameWidth: geometry.size.width,
+                                        frameHeight: self.sectionHeight
+                                    )
+                                }
+                                LineGraphGrid(
+                                    ySeries: 0...Int(self.workout.maxDistance.rounded(.up)),
                                     frameWidth: geometry.size.width,
-                                    frameHeight: geometry.size.height
+                                    frameHeight: self.sectionHeight
                                 )
-                            }
-                            LineGraphGrid(
-                                ySeries: 0...self.workout.maxCaloricBurn,
-                                frameWidth: geometry.size.width,
-                                frameHeight: geometry.size.height
-                            )
-                        }.frame(width: geometry.size.width)
+                            }.frame(width: geometry.size.width, height: self.sectionHeight)
+                            
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("Bike")
+                                    Divider()
+                                    Text("Total")
+                                }.frame(width: geometry.size.width / 5)
+                                HStack {
+                                    ForEach(self.selectedRides.rides) { ride in
+                                        VStack(alignment: .leading) {
+                                            Text("\(ride.bikeID)")
+                                                .font(.headline)
+                                                .fontWeight(.heavy)
+                                            Divider()
+                                            Text("\(ride.totalDistance, specifier: "%02.2f")")
+                                        }
+                                    }
+                                }
+                            }.padding()
+                        }
+                        
+                        VStack {
+                            ZStack {
+                                ForEach(self.selectedRides.rides) { ride in
+                                    LineGraphLine(
+                                        array: ride.powerArray!.map({ Double($0) }),
+                                        color: self.colorForRide(ride),
+                                        xOffset: self.xOffset(ride),
+                                        widthDivisor: self.widthDivisor,
+                                        heightDivisor: CGFloat(self.workout.maxPower),
+                                        frameWidth: geometry.size.width,
+                                        frameHeight: self.sectionHeight
+                                    )
+                                }
+                                LineGraphGrid(
+                                    ySeries: 0...self.workout.maxPower,
+                                    yStep: 5,
+                                    frameWidth: geometry.size.width,
+                                    frameHeight: self.sectionHeight
+                                )
+                            }.frame(width: geometry.size.width, height: self.sectionHeight)
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("Bike")
+                                    Divider()
+                                    Text("Max")
+                                    Divider()
+                                    Text("Avg")
+                                    Divider()
+                                    Text("Min")
+                                }.frame(width: geometry.size.width / 5)
+                                HStack {
+                                    ForEach(self.selectedRides.rides) { ride in
+                                        VStack(alignment: .leading) {
+                                            Text("\(ride.bikeID)")
+                                                .font(.headline)
+                                                .fontWeight(.heavy)
+                                            Divider()
+                                            Text("\(ride.maxPower)")
+                                            Divider()
+                                            Text("\(ride.avgPower)")
+                                            Divider()
+                                            Text("\(ride.minPower)")
+                                        }
+                                    }
+                                }
+                            }.padding()
+                        }
+
+                        VStack {
+                            ZStack {
+                                ForEach(self.selectedRides.rides) { ride in
+                                    LineGraphLine(
+                                        array: ride.cadenceArray!.map({ Double($0) }),
+                                        color: self.colorForRide(ride),
+                                        xOffset: self.xOffset(ride),
+                                        widthDivisor: self.widthDivisor,
+                                        heightDivisor: CGFloat(self.workout.maxCadence),
+                                        frameWidth: geometry.size.width,
+                                        frameHeight: self.sectionHeight
+                                    )
+                                }
+                                LineGraphGrid(
+                                    ySeries: 0...self.workout.maxCadence,
+                                    yStep: 10,
+                                    frameWidth: geometry.size.width,
+                                    frameHeight: self.sectionHeight
+                                )
+                            }.frame(width: geometry.size.width, height: self.sectionHeight)
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("Bike")
+                                    Divider()
+                                    Text("Max")
+                                    Divider()
+                                    Text("Avg")
+                                    Divider()
+                                    Text("Min")
+                                }.frame(width: geometry.size.width / 5)
+                                HStack {
+                                    ForEach(self.selectedRides.rides) { ride in
+                                        VStack(alignment: .leading) {
+                                            Text("\(ride.bikeID)")
+                                                .font(.headline)
+                                                .fontWeight(.heavy)
+                                            Divider()
+                                            Text("\(ride.maxCadence)")
+                                            Divider()
+                                            Text("\(ride.avgCadence)")
+                                            Divider()
+                                            Text("\(ride.minCadence)")
+                                        }
+                                    }
+                                }
+                            }.padding()
+                        }
                     }
                 }
-                .content.offset(x: self.offset)
-                .frame(width: geometry.size.width, alignment: .leading)
-                .gesture(
-                    DragGesture()
-                    .onChanged({ value in
-                        self.offset = value.translation.width - geometry.size.width * CGFloat(self.index)
-                    })
-                    .onEnded({ value in
-                        if -value.predictedEndTranslation.width > geometry.size.width / 2, self.index < 5 - 1 {
-                            self.index += 1
-                            self.indexTitle = self.indexTitles[self.index]
-                        }
-                        if value.predictedEndTranslation.width > geometry.size.width / 2, self.index > 0 {
-                            self.index -= 1
-                            self.indexTitle = self.indexTitles[self.index]
-                        }
-                        withAnimation { self.offset = -(geometry.size.width + 10) * CGFloat(self.index)
-                        }
-                    })
-                )
-            }
+            }}
         }
     }
 }
 
 struct WorkoutDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        return WorkoutDetailView()
-            .environmentObject(Workout.createDummyWorkout())
+        let w = Workout.createDummyWorkout()
+        return WorkoutDetailView(selectedRides: SelectedRides(rides: w.topRides()))
+            .environmentObject(w)
     }
 }

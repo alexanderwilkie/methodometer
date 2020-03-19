@@ -11,20 +11,17 @@ import UIKit
 import CoreData
 import os
 
-enum GoalStatus {
+enum SessionStatus {
     case notstarted, running, finished
 }
 
 class Session: NSObject, ObservableObject {
     @Published var distance: Float = 20
-    @Published var duration: Float = 10
+    @Published var duration: Float = 3600
     @Published var elapsedDistance: Float = 0
     @Published var elapsedDuration: Int = 0
     @Published var targetDistance: Float = 0
-    @Published var status: GoalStatus = GoalStatus.notstarted
-    
-    var initialCaloricBurns: [Int:Int] = [:]
-    var initialDistances: [Int:Double] = [:]
+    @Published var status: SessionStatus = .notstarted
     
     var rides: [Int:Ride] = [:]
 
@@ -35,14 +32,71 @@ class Session: NSObject, ObservableObject {
     var workout: Workout?
     var myBikeID: Int?
     
-    static func fakeSession() -> Session {
-        let start = CFAbsoluteTimeGetCurrent()
-        let session = Session()
-        let kbm = KeiserBikeManager(simulated: true)
-        session.startSession(coachName: "Amanda", myBikeID: kbm.foundBikes.first!.value.ordinalId, kbm: kbm, live: false)
-        let diff = CFAbsoluteTimeGetCurrent() - start
-        print("Took \(diff) seconds to generate sessions")
+    func reset() {
+        self.status = .notstarted
+        self.elapsedDuration = 0
+        self.workout = nil
+        self.myBikeID = nil
+        self.rides = [:]
+        if let _ = self.timer?.isValid {
+            self.timer?.invalidate()
+        }
+    }
+    
+    func configure(coachName: String, myBikeID: Int, kbm: KeiserBikeManager) {
         
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+        self.kbm = kbm
+        self.myBikeID = myBikeID
+
+        self.workout = Workout(context: context)
+        self.workout!.id = UUID()
+        self.workout!.status = WorkoutStatus.notstarted
+        self.workout!.coachName = coachName
+        self.workout!.sampleRate = 1
+        
+        do {
+            print("[DEBUG] [Session:stopWorkout] Saving workout for \(self.kbm!.foundBikes.count) bikes!")
+            try context.save()
+        } catch {
+            print("Invalid Selection.")
+        }
+    }
+    
+    func configureFromWorkout(fromWorkout workout: Workout, kbm: KeiserBikeManager) {
+        self.kbm = kbm
+        self.workout = workout
+        
+        self.elapsedDuration = Int(abs((self.workout?.dateStarted!.timeIntervalSince(Date())) ?? 0))
+        let timeDiff = Int16(self.elapsedDuration) - (self.workout?.myRide.elapsedDuration ?? 0)
+        print("Resuming workout! Last contat was \(timeDiff) seconds ago... filling in the blanks, then restarting!")
+        for ride in workout.allRides {
+            let bikeID = Int(ride.bikeID)
+            if (ride.myRide) {
+                self.myBikeID = bikeID
+            }
+            if (self.rides.index(forKey: bikeID) == nil) {
+                self.rides[bikeID] = ride
+            }
+            
+            for i in (self.workout?.myRide.elapsedDuration ?? 0)...(self.workout?.myRide.elapsedDuration ?? 0)+timeDiff {
+                print(self.elapsedDuration)
+                print(i)
+                self.rides[bikeID]!.addDroppedSamples(atSample: i)
+            }
+        }
+        
+
+        self.timer = Timer(timeInterval: 1.0, target: self, selector: #selector(sampleSession), userInfo: nil, repeats: true)
+        RunLoop.main.add(self.timer!, forMode: .common)
+    }
+    
+    static func fakeSession() -> Session {
+        let kbm = KeiserBikeManager(simulated: true)
+        let session = Session()
+        session.configure(coachName: "Amanda", myBikeID: kbm.foundBikes.first!.value.ordinalId, kbm: kbm)
+        session.startSession()
         return session
     }
     
@@ -50,102 +104,75 @@ class Session: NSObject, ObservableObject {
         return (Int(self.elapsedDistance * 100)) >= Int((self.targetDistance * 100))
     }
 
-    func startSession(coachName: String, myBikeID: Int, kbm: KeiserBikeManager, live: Bool = false) {
-        
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    func startSession() {
+        print("[DEBUG] [Session:startSession] Starting session at: \(Date())")
+        self.status = .running
 
-        self.kbm = kbm
-        self.status = GoalStatus.running
-        
-        self.workout = Workout(context: context)
-        self.workout!.id = UUID()
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        self.workout!.status = WorkoutStatus.live
         self.workout!.dateStarted = Date()
-        self.workout!.coachName = coachName
-        
-        self.myBikeID = myBikeID
-        
+        self.initialiseBikes()
+
         //hkm.startSession(date: Date())
+                
+        do {
+            print("[DEBUG] [Session:stopWorkout] Saving workout for \(self.kbm!.foundBikes.count) bikes!")
+            try context.save()
+        } catch {
+            print("Invalid Selection.")
+        }
         
-        if live {
-            self.workout!.sampleRate = 1
-            self.timer = Timer(timeInterval: 1.0, target: self, selector: #selector(sampleSession), userInfo: nil, repeats: true)
-            RunLoop.main.add(self.timer!, forMode: .common)
-        } else {
-            self.workout!.sampleRate = 60
-            for _ in stride(from: 0, to: Int(self.duration), by: 60) {
-                sampleSession(interval: 60)
+        self.timer = Timer(timeInterval: 1.0, target: self, selector: #selector(sampleSession), userInfo: nil, repeats: true)
+        RunLoop.main.add(self.timer!, forMode: .common)
+    }
+    
+    func initialiseBikes() {
+        for (bikeID, bike) in self.kbm!.foundBikes {
+            if (self.rides.index(forKey: bikeID) == nil) {
+                self.rides[bikeID] = Ride(fromKeiserBike: bike, myRide: bikeID == self.myBikeID)
+                self.workout!.addToRides(self.rides[bikeID]!)
             }
         }
     }
         
     @objc func sampleSession(interval: TimeInterval = 1) {
         print("[DEBUG] [Session:sampleSession] Sampling session at: \(self.elapsedDuration) into session")
-
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        for (bikeID, bike) in self.kbm!.foundBikes {
-            if (self.initialDistances.index(forKey: bikeID) == nil) {
-                print("[DEBUG] [Session:sampleSession] Creating intitial Ride for session on bike: \(bikeID) - my bike is \(self.myBikeID)")
-
-                // need a better idea of cumilitive samples or something for the data that accumlate over time
-                self.initialDistances[bikeID] = bike.tripDistance
-                self.initialCaloricBurns[bikeID] = bike.caloricBurn
-
-                let ride = Ride(context: context)
-                ride.id = UUID()
-                ride.dateStarted = Date()
-                ride.bikeID = Int16(bikeID)
-                ride.elapsedDistance = [Double]()
-                ride.gearArray = [Int]()
-                ride.cadenceArray = [Int]()
-                ride.powerArray = [Int]()
-                ride.caloricBurnArray = [Int]()
-                if bikeID == self.myBikeID {
-                    ride.myRide = true
-                }
-                self.rides[bikeID] = ride
-            }
-        }
+        // run each sample to check for new bikes joining
+        self.initialiseBikes()
         
-        var i = interval
-        if let _  = self.timer?.isValid {
-            i = self.timer!.timeInterval
-        }
-        self.elapsedDuration += Int(i)
-                    
-        for (bikeID, bike) in self.kbm!.foundBikes {
-            self.rides[bikeID]!.elapsedDistance!.append(bike.tripDistance! - self.initialDistances[bikeID]!)
-            self.rides[bikeID]!.gearArray!.append(bike.gear!)
-            self.rides[bikeID]!.cadenceArray!.append(bike.cadence!)
-            self.rides[bikeID]!.powerArray!.append(bike.power!)
-            self.rides[bikeID]!.caloricBurnArray!.append(bike.caloricBurn! - self.initialCaloricBurns[bikeID]!)
-            //self.hkm.addDistanceSample(Double(self.elapsedDistance - p))
+        self.elapsedDuration += Int(self.timer!.timeInterval)
+        context.performAndWait {
+            for (bikeID, bike) in self.kbm!.foundBikes {
+                self.rides[bikeID]!.addSample(fromKeiserBike: bike, atSample: Int16(self.elapsedDuration))
+
+                // self.hkm.addDistanceSample(Double(self.elapsedDistance - p))
+                self.targetDistance += self.distance / self.duration
+            }
             
-            self.targetDistance += self.distance / self.duration
+            try? context.save()
         }
         
         if self.elapsedDuration >= Int(self.duration) {
-            stopWorkout()
+            stopSession()
         }
     }
     
-    func stopWorkout() {
+    func stopSession() {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        self.status = .finished
+        workout!.status = WorkoutStatus.completed
+        workout!.dateFinished = Date()
 
-        self.status = GoalStatus.finished
-        
-        // set the end date to now if we using timer... if not set fake
-        if let _  = self.timer?.isValid {
-            print("[DEBUG] [Session:stopWorkout] Storing end of workout to be now")
-            workout!.dateFinished = Date()
-        } else {
-            print("[DEBUG] [Session:stopWorkout] Storing end of workout to be \(self.duration)")
-            workout!.dateFinished = workout?.dateStarted?.addingTimeInterval(TimeInterval(self.duration))
-        }
-        
         for (bikeID, _) in self.kbm!.foundBikes {
             print("[DEBUG] [Session:stopWorkout] Adding Ride for bike: \(bikeID) at end of session")
-            workout!.addToRides(self.rides[bikeID]!)
+            if (self.rides.index(forKey: bikeID) != nil) {
+                workout!.addToRides(self.rides[bikeID]!)
+            } else {
+                print("Couldn't find bike \(bikeID) in rides?!")
+            }
         }
         //self.hkm.finishSession()
         do {
@@ -155,9 +182,11 @@ class Session: NSObject, ObservableObject {
             print("Invalid Selection.")
         }
         
-        self.kbm!.stopFakeSession()
         if let _ = self.timer?.isValid {
+            print("Stopping timer")
             self.timer?.invalidate()
+        } else {
+            print("Couldn't stop timer!")
         }
     }
 }

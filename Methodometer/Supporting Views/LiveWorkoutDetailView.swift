@@ -8,20 +8,25 @@
 
 import SwiftUI
 
-struct KeiserBikeDetailView: View {
-    @EnvironmentObject var bike: KeiserBike
-    @EnvironmentObject var goal: Session
+struct LiveWorkoutDetailView: View {
+    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    @State private var showModal: Bool = false
+    @EnvironmentObject var session: Session
+    @EnvironmentObject var workout: Workout
+
+    var ride: Ride {
+        return self.workout.myRide
+    }
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Text(String(self.bike.name!))
+                    /*Text(String(self.bike.name!))
                         .font(.headline)
-                        .fontWeight(.heavy)
-                    Text("\(bike.ordinalId)")
+                        .fontWeight(.heavy)*/
+                    Text("\(self.ride.bikeID)")
                         .font(.subheadline)
                         .fontWeight(.light)
                         .foregroundColor(.gray)
@@ -34,7 +39,7 @@ struct KeiserBikeDetailView: View {
             HStack() {
                 Spacer()
                 VStack(alignment: .center) {
-                    Text("\(self.bike.gear!)")
+                    Text("\(self.workout.myRide.gearArray!.last!)")
                         .font(.largeTitle)
                         .fontWeight(.heavy)
                     Text("Gear")
@@ -49,7 +54,7 @@ struct KeiserBikeDetailView: View {
 
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Text("\(self.bike.cadence!) RPM")
+                    Text("\(self.ride.cadenceArray!.last!) RPM")
                         .font(.headline)
                         .fontWeight(.heavy)
                     Text("Cadence")
@@ -60,7 +65,7 @@ struct KeiserBikeDetailView: View {
                 }
                 Spacer()
                 VStack(alignment: .trailing) {
-                    Text("\(self.bike.power!) Watts")
+                    Text("\(self.ride.powerArray!.last!) Watts")
                         .font(.headline)
                         .fontWeight(.heavy)
                     Text("Power")
@@ -74,7 +79,7 @@ struct KeiserBikeDetailView: View {
 
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Text("\(secondsToString(Int(self.bike.duration!)))")
+                    Text("\(secondsToString(Int(self.ride.elapsedDuration)))")
                         .font(.headline)
                         .fontWeight(.heavy)
                     Text("Duration")
@@ -85,7 +90,7 @@ struct KeiserBikeDetailView: View {
                 }
                 Spacer()
                 VStack(alignment: .trailing) {
-                    Text("\(self.bike.tripDistance!, specifier: "%02.2f") Miles")
+                    Text("\(self.ride.totalDistance, specifier: "%02.2f") Miles")
                         .font(.headline)
                         .fontWeight(.heavy)
                     Text("Distance")
@@ -96,20 +101,28 @@ struct KeiserBikeDetailView: View {
                 }
             }
             .padding(.bottom, 25)
-            
             Spacer()
+            Button(action: {
+                self.session.stopSession()
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+                Text("STOP!")
+            }
         }
         .padding()
         .navigationBarTitle(Text("Details"), displayMode: .inline)
+        .onAppear {
+            if (self.session.workout == nil) {
+                self.session.configureFromWorkout(fromWorkout: self.workout, kbm: ContentView.kbm)
+            }
+        }
     }
 }
 
-struct KeiserBikeDetailView_Previews: PreviewProvider {
+struct LiveWorkoutDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let goal: Session = Session()
-        goal.status = GoalStatus.running
-        return KeiserBikeDetailView()
-            .environmentObject(KeiserBike.fakeRandomBike())
+        return LiveWorkoutDetailView()
             .environmentObject(goal)
     }
 }
