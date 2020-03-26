@@ -13,7 +13,8 @@
         <attribute name="initialDistance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="myRide" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="powerArray" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[Int]"/>
-        <relationship name="workouts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Workout" inverseName="rides" inverseEntity="Workout"/>
+        <attribute name="totalDistance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="workouts" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Workout" inverseName="rides" inverseEntity="Workout"/>
     </entity>
     <entity name="Workout" representedClassName="Workout" syncable="YES" codeGenerationType="class">
         <attribute name="coachName" optional="YES" attributeType="String"/>
@@ -24,10 +25,10 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="sampleRate" optional="YES" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="statusString" optional="YES" attributeType="String" customClassName="WorkoutStatus"/>
-        <relationship name="rides" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ride" inverseName="workouts" inverseEntity="Ride"/>
+        <relationship name="rides" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Ride" inverseName="workouts" inverseEntity="Ride"/>
     </entity>
     <elements>
-        <element name="Ride" positionX="1377.26171875" positionY="439.1875" width="128" height="238"/>
+        <element name="Ride" positionX="1377.26171875" positionY="439.1875" width="128" height="253"/>
         <element name="Workout" positionX="1115.58203125" positionY="455.79296875" width="128" height="178"/>
     </elements>
 </model>

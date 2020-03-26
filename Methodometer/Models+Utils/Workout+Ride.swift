@@ -10,13 +10,77 @@ import Foundation
 import UIKit
 import CoreData
 
+func maxDistanceForRides(_ rides: [Ride]) -> Double {
+    var mD: Double = 0
+    for ride in rides  {
+        mD = max(mD, ride.totalDistance)
+    }
+    return mD
+}
+
+func minPaceForRides(_ rides: [Ride]) -> Double {
+    var mD: Double = 0
+    for ride in rides  {
+        mD = max(mD, ride.minPace)
+    }
+    return mD
+}
+
+func maxPowerForRides(_ rides: [Ride]) -> Int {
+    var mP: Int = 0
+    for ride in rides  {
+        mP = max(mP, ride.maxPower)
+    }
+    return mP
+}
+
+func minPowerForRides(_ rides: [Ride]) -> Int {
+    var mP: Int = 99999
+    for ride in rides  {
+        mP = min(mP, ride.minPower)
+    }
+    return mP
+}
+
+func maxCadenceForRides(_ rides: [Ride]) -> Int {
+    var mC: Int = 0
+    for ride in rides  {
+        mC = max(mC, ride.maxCadence)
+    }
+    return mC
+}
+
+func minCadenceForRides(_ rides: [Ride]) -> Int {
+    var mC: Int = 99999
+    for ride in rides  {
+        mC = min(mC, ride.minCadence)
+    }
+    return mC
+}
+
+func maxCaloricBurnForRides(_ rides: [Ride]) -> Int {
+    var mCB: Int = 0
+    for ride in rides  {
+        mCB = max(mCB, ride.totalCalories)
+    }
+    return mCB
+}
+
+func minCaloricBurnForRides(_ rides: [Ride]) -> Int {
+    var mCB: Int = 99999
+    for ride in rides  {
+        mCB = min(mCB, ride.totalCalories)
+    }
+    return mCB
+}
+
 enum WorkoutStatus: String {
     case notstarted, live, completed, junked
 }
 
 extension Workout: Identifiable {
     
-    static func createDummyWorkout(duration: Double = 3600, status: WorkoutStatus=WorkoutStatus.completed) -> Workout {
+    static func createDummyWorkout(duration: Int16=3600, status: WorkoutStatus=WorkoutStatus.completed) -> Workout {
         
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let workout = Workout(context: context)
@@ -24,7 +88,9 @@ extension Workout: Identifiable {
         workout.status = status
         workout.sampleRate = 1
         workout.dateStarted = Date()
-        workout.dateFinished = workout.dateStarted?.addingTimeInterval(duration)
+        workout.goalDistance = 20.5
+        workout.goalDuration = 3600
+        workout.dateFinished = workout.dateStarted?.addingTimeInterval(TimeInterval(duration))
         workout.coachName = [
             "Amanda Chau",
             "Megan Rain",
@@ -38,7 +104,7 @@ extension Workout: Identifiable {
         let myBikeID = bikeIDs.randomElement()
         
         for i in bikeIDs {
-            workout.addToRides(Ride.createDummyRide(duration: Int16(duration), myRide: myBikeID == i, bikeID: i))
+            workout.addToRides(Ride.createDummyRide(duration: duration, myRide: myBikeID == i, bikeID: i))
         }
     
         return workout
@@ -63,59 +129,35 @@ extension Workout: Identifiable {
     }
     
     var maxDistance: Double {
-        var mD: Double = 0
-        for case let ride as Ride in rides!  {
-            mD = max(mD, ride.totalDistance)
-        }
-        return mD
+        return maxDistanceForRides(self.allRides)
+    }
+    
+    var minPace: Double {
+        return minPaceForRides(self.allRides)
     }
     
     var maxPower: Int {
-        var mP: Int = 0
-        for case let ride as Ride in rides!  {
-            mP = max(mP, ride.maxPower)
-        }
-        return mP
+        return maxPowerForRides(self.allRides)
     }
     
     var minPower: Int {
-        var mP: Int = 99999
-        for case let ride as Ride in rides!  {
-            mP = min(mP, ride.minPower)
-        }
-        return mP
+        return minPowerForRides(self.allRides)
     }
     
     var maxCadence: Int {
-        var mC: Int = 0
-        for case let ride as Ride in rides!  {
-            mC = max(mC, ride.maxCadence)
-        }
-        return mC
+        return maxCadenceForRides(self.allRides)
     }
     
     var minCadence: Int {
-        var mC: Int = 99999
-        for case let ride as Ride in rides!  {
-            mC = min(mC, ride.minCadence)
-        }
-        return mC
+        return minCadenceForRides(self.allRides)
     }
     
     var maxCaloricBurn: Int {
-        var mCB: Int = 0
-        for case let ride as Ride in rides!  {
-            mCB = max(mCB, ride.totalCalories)
-        }
-        return mCB
+        return maxCaloricBurnForRides(self.allRides)
     }
     
     var minCaloricBurn: Int {
-        var mCB: Int = 99999
-        for case let ride as Ride in rides!  {
-            mCB = min(mCB, ride.totalCalories)
-        }
-        return mCB
+        return minCaloricBurnForRides(self.allRides)
     }
     
     var myRide: Ride {
@@ -139,12 +181,16 @@ extension Workout: Identifiable {
     }
     
     func topRides(count: Int = 3) -> [Ride] {
-        var r = self.allRides.sorted(by: { $0.totalDistance < $1.totalDistance })[...count]
+        var r = self.allRides.sorted(by: { $0.totalDistance > $1.totalDistance })[...count]
         if !r.contains(self.myRide)  {
             r = r[...(count-1)]
             r.append(self.myRide)
         }
         return Array(r)
+    }
+    
+    func getRank(_ ride: Ride) -> Int {
+        return (self.allRides.sorted(by: { $0.totalDistance > $1.totalDistance }).firstIndex(of: ride) ?? -1) + 1
     }
 }
 
@@ -177,7 +223,7 @@ extension Ride: Identifiable, Comparable {
         self.initialDistance = initialDistance
         self.initialCaloricBurn = initialCaloricBurn
         self.elapsedDistanceArray = [Double]([0])
-        self.gearArray = [Int]([0])
+        self.gearArray = [Int]()
         self.cadenceArray = [Int]([0])
         self.powerArray = [Int]([0])
         self.caloricBurnArray = [Int]([0])
@@ -186,7 +232,8 @@ extension Ride: Identifiable, Comparable {
     
     func addSample(fromKeiserBike bike: KeiserBike, atSample: Int16) {
         self.elapsedDuration = atSample
-        self.elapsedDistanceArray!.append(bike.tripDistance! - self.initialDistance)
+        self.totalDistance = bike.tripDistance! - self.initialDistance
+        self.elapsedDistanceArray!.append(self.totalDistance)
         self.gearArray!.append(bike.gear!)
         self.cadenceArray!.append(bike.cadence!)
         self.powerArray!.append(bike.power!)
@@ -196,7 +243,7 @@ extension Ride: Identifiable, Comparable {
     func addDroppedSamples(atSample: Int16) {
         self.elapsedDuration = atSample
         self.elapsedDistanceArray!.append(self.elapsedDistanceArray!.last!)
-        self.gearArray!.append(self.gearArray!.last!)
+        self.gearArray!.append(self.gearArray!.last ?? 0)
         self.cadenceArray!.append(self.cadenceArray!.last!)
         self.powerArray!.append(self.powerArray!.last!)
         self.caloricBurnArray!.append(self.caloricBurnArray!.last!)
@@ -219,12 +266,18 @@ extension Ride: Identifiable, Comparable {
 
         for _ in 0 ..< 3600 {
             _elapsedDistance += Double.random(in: 0.001...0.009)
+            if self.myRide {
+                // give me a higher chance of winning :)
+                _elapsedDistance += Double.random(in: 0.0005...0.002)
+            }
             self.elapsedDistanceArray?.append(_elapsedDistance)
             
             _elapsedCalories += Double.random(in: 0.001...0.009)
             self.caloricBurnArray?.append(Int(_elapsedCalories.rounded(.down)))
         }
         
+        self.totalDistance = self.elapsedDistanceArray!.last!
+
         // START WARMUP - 900 Seconds
         func segment(duration: Double, intervals: Int) {
             
@@ -262,7 +315,8 @@ extension Ride: Identifiable, Comparable {
     }
     
     func paceAtSample(sample: Int) -> Double {
-        return Double(sample) / 60 / self.elapsedDistanceArray![sample]
+        let p = Double(sample) / 60 / self.elapsedDistanceArray![sample]
+        return p.isNaN ? 0 : p
     }
     
     var paceArray: [Double] {
@@ -274,11 +328,13 @@ extension Ride: Identifiable, Comparable {
     }
     
     var maxPace: Double {
-        return self.paceArray.max()!
+        // pace is atually inverted for min/max
+        return self.paceArray.min()!
     }
     
     var minPace: Double {
-        return self.paceArray.min()!
+        // pace is atually inverted for min/max
+        return self.paceArray.max()!
     }
     
     var avgPace: Double {
@@ -298,10 +354,6 @@ extension Ride: Identifiable, Comparable {
         return sumArray / self.gearArray!.count
     }
     
-    var totalDistance: Double {
-        return self.elapsedDistanceArray?.last ?? 0
-    }
-    
     var totalCalories: Int {
         return self.caloricBurnArray!.last!
     }
@@ -310,26 +362,26 @@ extension Ride: Identifiable, Comparable {
         return self.powerArray!.max()!
     }
     
+    var minPower: Int {
+        return self.powerArray!.min()!
+    }
+    
     var avgPower: Int {
         let sumArray = self.powerArray!.reduce(0, +)
         return sumArray / self.powerArray!.count
-    }
-    
-    var minPower: Int {
-        return self.powerArray!.min()!
     }
     
     var maxCadence: Int {
         return self.cadenceArray!.max()!
     }
     
+    var minCadence: Int {
+        return self.cadenceArray!.min()!
+    }
+    
     var avgCadence: Int {
         let sumArray = self.cadenceArray!.reduce(0, +)
         return sumArray / self.cadenceArray!.count
-    }
-    
-    var minCadence: Int {
-        return self.cadenceArray!.min()!
     }
     
     public static func ==(lhs: Ride, rhs: Ride) -> Bool {

@@ -8,98 +8,125 @@
 
 import SwiftUI
 
-struct LineGraphGrid: View {
-    let ySeries: ClosedRange<Int>
-    var yStep: Int = 1
+func xOffset(_ workout: Workout, _ ride: Ride) -> CGFloat{
+    return CGFloat(ride.dateStarted!.timeIntervalSince(workout.dateStarted!))
+}
 
-    let frameWidth: CGFloat
-    let frameHeight: CGFloat
+func widthDivisor(_ workout: Workout) -> CGFloat {
+    return CGFloat(workout.duration/Double(workout.sampleRate))
+}
+
+class GraphData: Identifiable {
+    let id: UUID = UUID()
     
-    var dHeight: CGFloat {
-        return self.frameHeight / CGFloat(self.ySeries.last! + 1)
-    }
+    var array: [Double]
+    var color: Color
+    var xOffset: CGFloat
     
-    var body: some View {
-        ForEach(ySeries, id: \.self) { line in
-            ZStack {
-                if (line % self.yStep == 0) {
-                    Path { path in
-                        let y = self.frameHeight - CGFloat(line) * self.dHeight
-                        path.move(to: CGPoint(x: 0, y: y))
-                        path.addLine(to: CGPoint(x: self.frameWidth, y: y))
-                    }.stroke(Color.gray, lineWidth: 0.25)
-                    
-                    Text("\(line)")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    .background(Color("mPrimaryBG"))
-                    .opacity(1)
-                    .offset(
-                        x: -(self.frameWidth / 2) + 20,
-                        y: (self.frameHeight / 2) - (CGFloat(line) + 1) * self.dHeight
-                    )
-                } else {
-                    EmptyView()
-                }
-            }
-            .frame(width: self.frameWidth, height: self.frameHeight)
-            
-        }
+    init(array: [Double], color: Color, xOffset: CGFloat) {
+        self.array = array
+        self.color = color
+        self.xOffset = xOffset
     }
 }
 
-struct LineGraphLine: View {
+struct LineGraph: View {
     
-    let array: [Double]
+    let data: [GraphData]
+    let xSeries: ClosedRange<Int>
+    let ySeries: ClosedRange<Int>
     
-    let color: Color
-    
-    let xOffset: CGFloat
-    
-    let widthDivisor: CGFloat
-    let heightDivisor: CGFloat
-    
+    var yStep: Int = 1
+    var gridXStep: Int = 4
+
     let frameWidth: CGFloat
     let frameHeight: CGFloat
+
+    // To give the axis space
+    private let textOffset: CGFloat = 20
+    
+    // To give the xAxis space
+    private let xOffset: CGFloat = 30
+    
+    // how much the gridlines overhang
+    private let overhang: CGFloat = 5
+
+    var gridWidth: CGFloat {
+        return (self.frameWidth - self.xOffset * 2) / CGFloat(self.gridXStep)
+    }
+    
+    var gridHeight: CGFloat {
+        return self.frameHeight / CGFloat(self.ySeries.last! + 1)
+    }
+    
+    var xStep: CGFloat {
+        return (self.frameWidth - self.xOffset * 2) / CGFloat(self.xSeries.count - 1)
+    }
     
     var body: some View {
         
-        let dWidth = self.frameWidth / self.widthDivisor
-        let dHeight = self.frameHeight / (self.heightDivisor + 1)
-        
-        return Group {
-            Path { p in
-                p.move(to: CGPoint(
-                    x: CGFloat(self.xOffset) * dWidth,
-                    y: self.frameHeight - CGFloat(self.array[0]) * dHeight
-                ))
-                
-                self.array.indices.forEach { i in
-                    if (i % 1 == 0) {
-                        let x = CGFloat(Int(self.xOffset) + i) * dWidth
-                        let y = self.frameHeight - (CGFloat(self.array[i]) * dHeight)
-                        
-                        p.addLine(to:CGPoint(x: x, y: y))
-                        
-                        /*
-                        p.addEllipse(
-                            in: CGRect(
-                                x: x - 1,
-                                y: y - 1,
-                                width: 2,
-                                height: 2
-                            )
+        ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
+            ForEach(self.ySeries, id: \.self) { line in
+                Group {
+                    if (line % self.yStep == 0) {
+                        Text("\(line)")
+                        .offset(
+                            x: -self.frameWidth + self.textOffset,
+                            // + 5 to bring in line with line
+                            y: -(CGFloat(line) * self.gridHeight) - self.textOffset + 5
                         )
+                        .modifier(Label())
                         
-                        // reset after drawing ellipse
-                        p.move(to: CGPoint(x: x, y: y))
-                        */
+                        Path { path in
+                            // some reason it's inverse
+                            let y = self.frameHeight - CGFloat(line) * self.gridHeight - self.textOffset
+                            path.move(to: CGPoint(
+                                x: self.xOffset - self.overhang,
+                                y: y
+                            ))
+                            path.addLine(to: CGPoint(
+                                x: self.frameWidth - self.xOffset + self.overhang,
+                                y: y
+                            ))
+                        }.stroke(Color.gray, lineWidth: 0.25)
+                    } else {
+                        EmptyView()
                     }
                 }
             }
-            .stroke(style: StrokeStyle(lineWidth: 1))
-            .foregroundColor(self.color)
+            ForEach(0...gridXStep, id: \.self) { line in
+                Path { path in
+                    let x = (CGFloat(line) * self.gridWidth) + self.xOffset
+                    path.move(to: CGPoint(
+                        x: x,
+                        y: self.frameHeight - self.textOffset + self.overhang
+                    ))
+                    path.addLine(to: CGPoint(
+                        x: x,
+                        y: self.gridHeight - self.textOffset - self.overhang
+                    ))
+                }.stroke(Color.gray, lineWidth: CGFloat(0.25))
+            }
+            
+            ForEach(self.data) { d in
+                Path { p in
+                    p.move(to: CGPoint(
+                        x: (CGFloat(d.xOffset) * self.xStep) + self.xOffset,
+                        y: self.frameHeight - CGFloat(d.array[0]) * self.gridHeight - self.textOffset
+                    ))
+
+                    d.array.indices.forEach { i in
+                        let x = (d.xOffset + CGFloat(i) * self.xStep) + self.xOffset
+                        let y = self.frameHeight - (CGFloat(d.array[i]) * self.gridHeight + self.textOffset)
+                        
+                        p.addLine(to:CGPoint(x: x, y: y))
+                    }
+                }
+                .stroke(style: StrokeStyle(lineWidth: CGFloat(1)))
+                .foregroundColor(d.color)
+            }
         }
+        .frame(width: self.frameWidth, height: self.frameHeight)
     }
 }
 
@@ -109,17 +136,14 @@ struct Graphing_Previews: PreviewProvider {
             ScrollView(.horizontal, showsIndicators: true) {
                 HStack(spacing: 10) {
                     ZStack(alignment: .leading) {
-                        LineGraphLine(
-                            array: Array(1...24).map({ Double($0) }),
-                            color: Color.red,
-                            xOffset: 0,
-                            widthDivisor: 23,
-                            heightDivisor: 24,
-                            frameWidth: geometry.size.width,
-                            frameHeight: geometry.size.height
-                        )
-                        LineGraphGrid(
-                            ySeries: 1...24,
+                        LineGraph(
+                            data: [GraphData(
+                                array: Array(1...10).map({ Double($0) }),
+                                color: Color.red,
+                                xOffset: 0
+                            )],
+                            xSeries: 0...9,
+                            ySeries: 0...10,
                             frameWidth: geometry.size.width,
                             frameHeight: geometry.size.height
                         )

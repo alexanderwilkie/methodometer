@@ -43,7 +43,7 @@ class Session: NSObject, ObservableObject {
         }
     }
     
-    func configure(coachName: String, myBikeID: Int, kbm: KeiserBikeManager) {
+    func configure(coachName: String, goalDuration: Int, goalDistance: Double, myBikeID: Int, kbm: KeiserBikeManager) {
         
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
@@ -54,6 +54,8 @@ class Session: NSObject, ObservableObject {
         self.workout!.id = UUID()
         self.workout!.status = WorkoutStatus.notstarted
         self.workout!.coachName = coachName
+        self.workout!.goalDistance = goalDistance
+        self.workout!.goalDuration = Int16(goalDuration)
         self.workout!.sampleRate = 1
         
         do {
@@ -80,13 +82,10 @@ class Session: NSObject, ObservableObject {
                 self.rides[bikeID] = ride
             }
             
-            for i in (self.workout?.myRide.elapsedDuration ?? 0)...(self.workout?.myRide.elapsedDuration ?? 0)+timeDiff {
-                print(self.elapsedDuration)
-                print(i)
+            for i in (self.workout?.myRide.elapsedDuration ?? 0)...(self.workout?.myRide.elapsedDuration ?? 1)+timeDiff {
                 self.rides[bikeID]!.addDroppedSamples(atSample: i)
             }
         }
-        
 
         self.timer = Timer(timeInterval: 1.0, target: self, selector: #selector(sampleSession), userInfo: nil, repeats: true)
         RunLoop.main.add(self.timer!, forMode: .common)
@@ -95,7 +94,7 @@ class Session: NSObject, ObservableObject {
     static func fakeSession() -> Session {
         let kbm = KeiserBikeManager(simulated: true)
         let session = Session()
-        session.configure(coachName: "Amanda", myBikeID: kbm.foundBikes.first!.value.ordinalId, kbm: kbm)
+        session.configure(coachName: "Amanda", goalDuration: 3600, goalDistance: 20.4, myBikeID: kbm.foundBikes.first!.value.ordinalId, kbm: kbm)
         session.startSession()
         return session
     }

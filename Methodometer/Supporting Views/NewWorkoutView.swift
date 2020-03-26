@@ -18,27 +18,31 @@ struct NewWorkoutView: View {
     @State private var coachName: String = ""
     @State private var selectedBike = 0
     
-    @State var distance1: Int = 20
-    @State var distance2: Int = 0
-    @State var duration: Int = 60
+    @State var distance: Double = 20
+    @State var duration: Double = 60
+    
+    init()
+    {
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
+    }
+    
+    var isDisabled: Bool {
+        return self.selectedBike == 0 || self.coachName.isEmpty
+    }
 
     var newWorkoutView: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading) {
-                Group {
-                    Text("Enter Coach Name:")
-                        .modifier(H3())
-                    TextField("Coach Name", text: self.$coachName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.vertical, 25)
-                }
-                
-                Group {
-                    Text("Pick your bike:")
-                        .modifier(H3())
-                    HStack {
-                        Spacer()
-                        Picker(selection: self.$selectedBike, label: Text("")) {
+                Form {
+                    Section {
+                        Text("Enter Coach Name:")
+                            .modifier(H3())
+                        TextField("Coach Name", text: self.$coachName)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.vertical, 5)
+                            .keyboardType(.alphabet)
+                            .autocapitalization(.words)
+                        Picker(selection: self.$selectedBike, label: Text("Your Bike").modifier(H3())) {
                             ForEach(self.kbm.bikes, id: \.ordinalId) { bike in
                                 Text("\(bike.ordinalId)").tag(bike.ordinalId)
                             }
@@ -46,65 +50,33 @@ struct NewWorkoutView: View {
                         .frame(maxWidth: (geometry.size.width / 2) + 10, maxHeight: 100)
                         .clipped()
                         .id(self.kbm.bikes) // this is to make sure it redraws as bikes come on line...
-                        Spacer()
+                        Text("Goal Distance: \(self.distance, specifier: "%02.1f") Miles")
+                            .modifier(H3())
+                        Slider(value: self.$distance, in: 10...30, step: 0.1)
+                        Text("Workout Duration: \(self.duration, specifier: "%02.0f") Mins")
+                            .modifier(H3())
+                        Slider(value: self.$duration, in: 0...120, step: 1)
                     }
-                }
-                
-                Group {
-                    Text("Pick A Goal Distance:")
-                        .modifier(H3())
-                    Text("Miles")
-                        .modifier(H4())
-                    HStack(spacing: 0) {
-                        Spacer()
-                        Picker(selection: self.$distance1, label: Text("")) {
-                            ForEach(10...30, id: \.self) { integer in
-                                Text("\(integer)")
+                    Section(footer: Text(self.isDisabled ? "*Enter coach name and select a bike before starting!" : "").foregroundColor(Color.red)) {
+                        Button(action: {
+                            self.session.configure(
+                                coachName: self.coachName,
+                                goalDuration: Int(self.duration) * 60,
+                                goalDistance: self.distance,
+                                myBikeID: self.selectedBike,
+                                kbm: self.kbm
+                            )
+                            self.session.startSession()
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text("START!")
+                                    .modifier(TextButton(buttonColor: self.isDisabled ? .gray : .green))
+                                Spacer()
                             }
-                        }
-                        .frame(maxWidth: geometry.size.width / 4, maxHeight: 100)
-                        .clipped()
-                        .padding(.trailing, 10)
-
-                        Picker(selection: self.$distance2, label: Text("")) {
-                            ForEach(0...9, id: \.self) { integer in
-                                Text("\(integer)")
-                            }
-                        }
-                        .frame(maxWidth: geometry.size.width / 4, maxHeight: 100)
-                        .clipped()
-                        Spacer()
+                        }.disabled(self.isDisabled)
                     }
                 }
-            
-                Text("Pick Workout Duration:")
-                    .modifier(H3())
-                Text("Minutes")
-                    .modifier(H4())
-                HStack {
-                    Spacer()
-                    Picker(selection: self.$duration, label: Text("")) {
-                        ForEach(0...120, id: \.self) { minutes in
-                            Text("\(minutes)")
-                        }
-                    }
-                    .frame(maxWidth: (geometry.size.width / 2) + 10, maxHeight: 100)
-                    .clipped()
-                    .padding(.trailing)
-                    Spacer()
-                }
-                
-                Button(action: {
-                    self.session.configure(
-                        coachName: self.coachName,
-                        myBikeID: self.selectedBike,
-                        kbm: self.kbm
-                    )
-                    self.session.startSession()
-                }) {
-                    Text("GO!")
-                }
-                Spacer()
             }
             .padding()
             .navigationBarTitle(Text("New Workout"), displayMode: .inline)
@@ -119,7 +91,11 @@ struct NewWorkoutView: View {
         guard let _ = self.session.workout?.myRide else {
             return AnyView(self.newWorkoutView)
         }
-        return AnyView(LiveWorkoutDetailView()
+        return AnyView(LiveWorkoutDetailView(
+            selectedRides: SelectedRides(
+                rides: self.session.workout!.topRides()
+            )
+        )
             .environmentObject(self.session)
             .environmentObject(self.session.workout!)
         )

@@ -27,54 +27,65 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Workout.dateStarted, ascending: false)],
         predicate: NSPredicate(format: "statusString == %@", WorkoutStatus.completed.rawValue)
     ) var completedWorkouts: FetchedResults<Workout>
-
+    
+    @FetchRequest(
+        entity: Ride.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Ride.totalDistance, ascending: false)],
+        predicate: NSPredicate(format: "myRide == true")
+    ) var myRides: FetchedResults<Ride>
+    
+    func isDistancePB(_ workout: Workout) -> Bool {
+        return workout.myRide.id == self.myRides.first!.id
+    }
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                if (self.liveWorkouts.count > 0) {
-                    Text("In Progress Workouts")
-                        .font(.headline)
-                        .fontWeight(.heavy)
-                        .padding(.top)
-                        .padding(.horizontal)
-                    
-                    NavigationLink(destination: LiveWorkoutDetailView()
-                        .environmentObject(self.session)
-                        .environmentObject(self.liveWorkouts.last!)
-                    ) {
-                        WorkoutRowView()
-                            .environmentObject(self.liveWorkouts.last!)
+                List {
+                    if self.liveWorkouts.count > 0 {
+                        Section(header: HStack {
+                            Text("In Progress Workouts")
+                            .modifier(H3())
+                            .padding(.vertical, 10)
+                        }) {
+                            ForEach(self.liveWorkouts) { (workout: Workout) in
+                                NavigationLink(destination: LiveWorkoutDetailView(selectedRides: SelectedRides(rides: workout.topRides()))
+                                    .environmentObject(self.session)
+                                    .environmentObject(self.liveWorkouts.last!)
+                                ) {
+                                    WorkoutRowView(
+                                        isDistancePB: self.isDistancePB(workout)
+                                    )
+                                    .environmentObject(self.liveWorkouts.last!)
+                                }
+                            }
+                        }
                     }
-                    .padding(.horizontal)
-                    .frame(height: 60)
-                }
-                if (self.completedWorkouts.count > 0) {
-                    VStack(alignment: .leading) {
-                        Text("Completed Workouts")
-                            .font(.headline)
-                            .fontWeight(.heavy)
-                            .padding(.top)
-                            .padding(.horizontal)
-                        List {
+                    if self.completedWorkouts.count > 0 {
+                        Section(header:
+                            Text("Completed Workouts")
+                            .modifier(H3())
+                            .padding(.vertical, 10)
+                        ) {
                             ForEach(completedWorkouts) { (workout: Workout) in
                                 NavigationLink(destination:
-                                    WorkoutDetailView()
+                                    WorkoutDetailView(
+                                        isDistancePB: self.isDistancePB(workout),
+                                        selectedRides: SelectedRides(rides: workout.topRides())
+                                    )
                                         .environmentObject(workout)
                                 ) {
-                                    WorkoutRowView()
-                                        .environmentObject(workout)
+                                    WorkoutRowView(
+                                        isDistancePB: self.isDistancePB(workout)
+                                    )
+                                    .environmentObject(workout)
                                 }
                             }
                             .onDelete(perform: removeWorkout)
                             .id(self.refreshingID)
                         }
                     }
-                }
-                if (self.liveWorkouts.count <= 0 && self.completedWorkouts.count <= 0) {
-                    List {
-                        Text("No workouts yet!")
-                    }
-                }
+                }.environment(\.defaultMinListRowHeight, 75)
             }
             .navigationBarTitle(Text("Methodometer"), displayMode: .inline)
             .navigationBarItems(
