@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct ContentView: View {
-        
+
     static let kbm = KeiserBikeManager(simulated: true)
     @State var session = Session()
-    @State private var showModal: Bool = false
+    @State private var showUserSettingsModal: Bool = false
     
     @State private var refreshingID = UUID()
 
@@ -45,8 +45,7 @@ struct ContentView: View {
                     if self.liveWorkouts.count > 0 {
                         Section(header: HStack {
                             Text("In Progress Workouts")
-                            .modifier(H3())
-                            .padding(.vertical, 10)
+                            .modifier(H4())
                         }) {
                             ForEach(self.liveWorkouts) { (workout: Workout) in
                                 NavigationLink(destination: LiveWorkoutDetailView(selectedRides: SelectedRides(rides: workout.topRides()))
@@ -64,8 +63,7 @@ struct ContentView: View {
                     if self.completedWorkouts.count > 0 {
                         Section(header:
                             Text("Completed Workouts")
-                            .modifier(H3())
-                            .padding(.vertical, 10)
+                            .modifier(H4())
                         ) {
                             ForEach(completedWorkouts) { (workout: Workout) in
                                 NavigationLink(destination:
@@ -85,7 +83,7 @@ struct ContentView: View {
                             .id(self.refreshingID)
                         }
                     }
-                }.environment(\.defaultMinListRowHeight, 75)
+                }
             }
             .navigationBarTitle(Text("Methodometer"), displayMode: .inline)
             .navigationBarItems(
@@ -98,7 +96,17 @@ struct ContentView: View {
                     }
                     .animation(.none)
                     .frame(width: 25, height: 25),
-                trailing: EditButton()
+                trailing: HStack {
+                    Button(action: {
+                        self.showUserSettingsModal.toggle()
+                    }) {
+                        Image(systemName: "gear")
+                    }.sheet(isPresented: $showUserSettingsModal) {
+                        UserSettingView()
+                            .environmentObject(UserPreferences.shared)
+                    }
+                    .frame(width: 25, height: 25)
+                }
             )
         }
     }

@@ -27,12 +27,8 @@ struct LiveWorkoutDetailView: View {
     @State var index: Int = 0
     @State var endIndex: Int = 0
 
-    func convertToRange(_ number: CGFloat, maxWidth: CGFloat) -> Int {
+    func toRange(_ number: CGFloat, maxWidth: CGFloat) -> Int {
         return Int(((number - 0) / (maxWidth - 0) * 5).rounded(.down))
-    }
-    
-    func convertToRange(_ originalValue: CGFloat, from: ClosedRange<CGFloat>, to: ClosedRange<CGFloat>) -> CGFloat {
-        return ((originalValue - from.lowerBound) / (from.upperBound - from.lowerBound)) * ((to.upperBound - to.lowerBound) + to.lowerBound)
     }
 
     var ride: Ride {
@@ -99,6 +95,34 @@ struct LiveWorkoutDetailView: View {
         )
     }
     
+    var scrolldots: some View {
+        HStack(alignment: .top) {
+            Spacer()
+            ForEach(0...4, id: \.self) { i in
+                Circle()
+                .overlay(
+                    Circle()
+                    .stroke(Color("mPrimaryFG"), lineWidth: 1)
+                ).foregroundColor(i == self.index ? Color("mPrimaryFG") : Color("mPrimaryBG"))
+                .frame(width: 3, height: 3)
+            }
+            Spacer()
+        }
+    }
+    
+    var sparklines: some View {
+        VStack {
+            DistanceMarkerView()
+                .environmentObject(self.ride)
+                .frame(height: 40)
+            ForEach(self.selectedRides.otherRides) { ride in
+                DistanceMarkerView()
+                    .environmentObject(ride)
+                    .frame(height: 40)
+            }
+        }
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: -2) {
@@ -146,18 +170,9 @@ struct LiveWorkoutDetailView: View {
                             Spacer()
                             self.dataView(3, .trailing)
                         }
-                        HStack(alignment: .top) {
-                            Spacer()
-                            ForEach(0...4, id: \.self) { i in
-                                Circle()
-                                .overlay(
-                                    Circle()
-                                    .stroke(Color("mPrimaryFG"), lineWidth: 1)
-                                ).foregroundColor(i == self.index ? Color("mPrimaryFG") : Color("mPrimaryBG"))
-                                .frame(width: 3, height: 3)
-                            }
-                            Spacer()
-                        }.padding(.bottom, 15)
+                        
+                        self.scrolldots
+                            .padding(.bottom, 15)
                     }
                     HStack(alignment: .top) {
                         Spacer()
@@ -170,7 +185,7 @@ struct LiveWorkoutDetailView: View {
                 .gesture(
                     DragGesture()
                         .onChanged({ value in
-                            let r = self.convertToRange(
+                            let r = self.toRange(
                                 value.translation.width,
                                 maxWidth: geometry.size.width
                             )
@@ -178,7 +193,7 @@ struct LiveWorkoutDetailView: View {
 
                         })
                         .onEnded({ value in
-                            let r = self.convertToRange(
+                            let r = self.toRange(
                                 value.translation.width,
                                 maxWidth: geometry.size.width
                             )
@@ -186,25 +201,10 @@ struct LiveWorkoutDetailView: View {
                         })
                 )
                 
-                Group { // Progress body
+                VStack { // Sparkline body
                     Divider()
-                    GeometryReader { proxy in
-                        ForEach(
-                        Path { path in
-                            path.move(to: CGPoint(
-                                x: 0,
-                                y: 100
-                            ))
-                            path.addLine(to: CGPoint(
-                                x: self.convertToRange(
-                                    CGFloat(self.ride.totalDistance),
-                                    from: 0...1,
-                                    to: 0...proxy.size.width
-                                ),
-                                y: 100
-                            ))
-                        }.stroke(Color.blue, lineWidth: 2)
-                    }
+                    self.sparklines
+                    .padding()
                     Spacer()
                 }
                 Group { // Footer

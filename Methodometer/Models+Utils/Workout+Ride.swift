@@ -249,6 +249,14 @@ extension Ride: Identifiable, Comparable {
         self.caloricBurnArray!.append(self.caloricBurnArray!.last!)
     }
     
+    func passingMilestone() -> Bool {
+        if (self.elapsedDistanceArray!.count > 2) {
+            let last = Array(self.elapsedDistanceArray!.suffix(2))
+            return modf(last[1]).1 < modf(last[0]).1
+        }
+        return false
+    }
+    
     static func createDummyRide(
         duration: Int16,
         myRide: Bool=false,
@@ -315,7 +323,7 @@ extension Ride: Identifiable, Comparable {
     }
     
     func paceAtSample(sample: Int) -> Double {
-        let p = Double(sample) / 60 / self.elapsedDistanceArray![sample]
+        let p = Double(sample) / self.elapsedDistanceArray![sample]
         return p.isNaN ? 0 : p
     }
     
@@ -338,7 +346,7 @@ extension Ride: Identifiable, Comparable {
     }
     
     var avgPace: Double {
-        return Double(self.elapsedDuration) / 60 / self.totalDistance
+        return Double(self.elapsedDuration) / self.totalDistance
     }
     
     var maxGear: Int {
@@ -395,8 +403,13 @@ extension Ride: Identifiable, Comparable {
 
 class SelectedRides: ObservableObject {
     @Published var rides: [Ride]
-    
+    @Published var otherRides: [Ride]
+
     init(rides: [Ride] = [Ride]()) {
         self.rides = rides
+        self.otherRides = rides
+        if let idx = rides.firstIndex(where: { $0.myRide == true }) {
+            self.otherRides.remove(at: idx)
+        }
     }
 }

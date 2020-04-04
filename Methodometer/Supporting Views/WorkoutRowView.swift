@@ -20,62 +20,124 @@ struct WorkoutRowView: View {
     private static let shortTimeFormat: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US")
-        formatter.dateFormat = "HH:mm a"
+        formatter.dateFormat = "HH:mm"
         
         return formatter
     }()
-    
+    private static let ampmFormat: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.dateFormat = "a"
+        
+        return formatter
+    }()
+
     var body: some View {
         GeometryReader { geometry in
             HStack(alignment: .center) {
                 if (self.workout.managedObjectContext == nil) {
                     EmptyView()
                 } else {
-                    HStack(alignment: .bottom) {
-                        VStack(alignment: .trailing) {
-                            Text("\(self.workout.dateStarted!, formatter: WorkoutRowView.shortTimeFormat)")
-                                    .modifier(H4())
-                            Text("\(self.workout.dateStarted!, formatter: WorkoutRowView.shortDateFormat)")
-                                .modifier(Label())
+                    VStack(spacing: 5) {
+                        HStack(alignment: .lastTextBaseline) {
+                            VStack(alignment: .leading) {
+                                Text("\(self.workout.dateStarted!, formatter: WorkoutRowView.shortTimeFormat)")
+                                            .modifier(H3())
+                                Text("\(self.workout.dateStarted!, formatter: WorkoutRowView.shortDateFormat)")
+                                    .modifier(Label())
+                            }
+                            VStack(alignment: .leading) {
+                                HStack(alignment: .lastTextBaseline, spacing: 2) {
+                                    Text("\(Int(self.workout.duration / 60))")
+                                        .modifier(H3())
+                                    Text("Mins")
+                                        .modifier(H4())
+                                }
+                                Text("Duration")
+                                    .modifier(Label())
+                            }
+                            Spacer()
+                            Text(self.isDistancePB ? "🏆" : "")
+                                .font(Font.system(size: 26.0))
+                                .offset(x: 10, y: -4)
+                            Text(rankToEmoji(self.workout.getRank(self.workout.myRide)))
+                                .font(Font.system(size: 26.0))
+                                .offset(y: -4)
+                            
+                            VStack(alignment: .trailing) {
+                                HStack(alignment: .lastTextBaseline, spacing: 2) {
+                                    DistanceText(d: self.workout.myRide.totalDistance)
+                                        .modifier(H3())
+                                    DistanceUnitText()
+                                        .modifier(H4())
+                                }
+                                Text("Distance")
+                                    .modifier(Label())
+                            }
                         }
-                    }
-                    .padding(.bottom, 5)
-                    .frame(width: geometry.size.width / 4, alignment: .trailing)
-                    
-                    Divider()
-                    HStack(alignment: .bottom) {
-                        VStack(alignment: .leading) {
-                            Text("\(self.workout.myRide.totalDistance, specifier: "%02.2f") Miles")
-                                .modifier(H4())
-                            Text("\(secondsToString(Int(self.workout.duration))) @ \(self.workout.myRide.avgPace, specifier: "%02.2f")/m Avg Pace.")
-                            .modifier(Label())
-                        }
-                    }
-                    .padding(.bottom, 5)
-                    .frame(width: geometry.size.width / 2.45, alignment: .leading)
-
-                    Divider()
-                    HStack(alignment: .bottom) {
-                        VStack(alignment: .leading) {
-                            Text("\(self.workout.getRank(self.workout.myRide))")
-                                .modifier(H4())
-                            Text("Rank")
-                                .modifier(Label())
-                        }
-                        Text(rankToEmoji(self.workout.getRank(self.workout.myRide)))
-                            .padding(.horizontal, -5)
-                            .modifier(Emoji())
-                            .offset(x: 0, y: 3)
-                        Text(self.isDistancePB ? "🏆" : "")
-                            .padding(.horizontal, -5)
-                            .modifier(Emoji())
-                            .offset(x: 0, y: 2.5)
                         
-                        Spacer()
-                    }.padding(.bottom, 5)
+                        HStack(alignment: .center) {
+                            VStack(alignment: .leading) {
+                                Text("\(self.workout.coachName!)")
+                                    .modifier(H4())
+                                Text("Coach")
+                                    .modifier(Label())
+                            }
+                            Spacer()
+                            VStack(alignment: .trailing) {
+                                HStack(alignment: .lastTextBaseline, spacing: 0) {
+                                    Text("\(self.workout.getRank(self.workout.myRide))")
+                                        .modifier(H4())
+                                    Text(toOrdinal(self.workout.getRank(self.workout.myRide)))
+                                        .modifier(H5())
+                                }
+                                Text("Rank")
+                                    .modifier(Label())
+                            }
+                            VStack(alignment: .trailing) {
+                                Text("\(self.workout.myRide.bikeID)")
+                                    .modifier(H4())
+                                Text("Bike")
+                                    .modifier(Label())
+                            }
+                        }
+                        
+                        HStack(alignment: .top) {
+                            VStack(alignment: .leading) {
+                                Text("\(self.workout.myRide.avgCadence)/\(self.workout.myRide.maxCadence) RPM")
+                                    .modifier(H4())
+                                Text("AVG/Max Cadence")
+                                    .modifier(Label())
+                            }
+                            Spacer()
+                            VStack(alignment: .trailing) {
+                                Text("\(self.workout.myRide.avgPower)/\(self.workout.myRide.maxPower) Watts")
+                                    .modifier(H4())
+                                Text("AVG/Max Power")
+                                    .modifier(Label())
+                            }
+                        }.padding(.bottom, 5)
+                        HStack(alignment: .top) {
+                            VStack(alignment: .leading) {
+                                Text("\(self.workout.myRide.avgGear)/\(self.workout.myRide.maxGear)")
+                                    .modifier(H4())
+                                Text("AVG/Max Gear")
+                                    .modifier(Label())
+                            }
+                            Spacer()
+                            VStack(alignment: .trailing) {
+                                PaceText(p: [self.workout.myRide.avgPace, self.workout.myRide.maxPace])
+                                Text("AVG/Max Pace")
+                                    .modifier(Label())
+                            }
+                        }.padding(.bottom, 5)
+                    }
                 }
             }
-            .frame(height: 75)
+            .padding()
+            .background(Color.white)
+            .cornerRadius(25)
+            .shadow(radius: 5)
         }
     }
 }

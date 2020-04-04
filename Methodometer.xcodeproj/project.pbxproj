@@ -20,7 +20,6 @@
 		9117810F23F66917009F9BBD /* KeiserBike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9117810E23F66917009F9BBD /* KeiserBike.swift */; };
 		913628EB23FD0DCB00AB9338 /* BLEPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913628EA23FD0DCB00AB9338 /* BLEPeripheral.swift */; };
 		913628ED23FD0F5100AB9338 /* KeiserBikeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913628EC23FD0F5100AB9338 /* KeiserBikeManager.swift */; };
-		916762582425CD6700791C51 /* WorkoutRank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916762572425CD6700791C51 /* WorkoutRank.swift */; };
 		9167625C2426D72D00791C51 /* GearDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9167625B2426D72D00791C51 /* GearDataView.swift */; };
 		919FFAE22416654B000D5E2D /* RideMultiSelectRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919FFAE12416654B000D5E2D /* RideMultiSelectRow.swift */; };
 		91AD90F924166F360025C046 /* SelectRideModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD90F824166F360025C046 /* SelectRideModal.swift */; };
@@ -36,10 +35,14 @@
 		91DC3C8123F3AFEC00FD70CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91DC3C7F23F3AFEC00FD70CC /* LaunchScreen.storyboard */; };
 		91DC3C8C23F3AFEC00FD70CC /* MethodometerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC3C8B23F3AFEC00FD70CC /* MethodometerTests.swift */; };
 		91DC3C9723F3AFEC00FD70CC /* MethodometerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC3C9623F3AFEC00FD70CC /* MethodometerUITests.swift */; };
+		91F4FA732431886500323C7E /* DistanceMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F4FA722431886500323C7E /* DistanceMarkerView.swift */; };
+		91F4FA752431892800323C7E /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F4FA742431892800323C7E /* Helpers.swift */; };
+		91F4FA772432FB8E00323C7E /* UserSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F4FA762432FB8E00323C7E /* UserSettingView.swift */; };
+		91F4FA79243302E700323C7E /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F4FA78243302E700323C7E /* UserPreferences.swift */; };
+		91F4FA7B2434537500323C7E /* UnitConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F4FA7A2434537500323C7E /* UnitConversion.swift */; };
 		91F8A65D242823070055F958 /* WorkoutTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F8A65C242823070055F958 /* WorkoutTableView.swift */; };
 		91FA82182401A56B0026C123 /* NewWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA82172401A56B0026C123 /* NewWorkoutView.swift */; };
 		91FA821C2401C4BF0026C123 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA821B2401C4BF0026C123 /* Session.swift */; };
-		91FA8226240303130026C123 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA8225240303130026C123 /* Time.swift */; };
 		91FA82292403CC340026C123 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FA82282403CC340026C123 /* HealthKit.framework */; };
 		91FA822B240691320026C123 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA822A240691320026C123 /* HealthKitManager.swift */; };
 		91FA82AB240B90220026C123 /* Workout+Ride.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FA82AA240B90220026C123 /* Workout+Ride.swift */; };
@@ -79,7 +82,6 @@
 		9117811023F66FCE009F9BBD /* Methodometer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Methodometer.entitlements; sourceTree = "<group>"; };
 		913628EA23FD0DCB00AB9338 /* BLEPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEPeripheral.swift; sourceTree = "<group>"; };
 		913628EC23FD0F5100AB9338 /* KeiserBikeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeiserBikeManager.swift; sourceTree = "<group>"; };
-		916762572425CD6700791C51 /* WorkoutRank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRank.swift; sourceTree = "<group>"; };
 		9167625B2426D72D00791C51 /* GearDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GearDataView.swift; sourceTree = "<group>"; };
 		919FFAE12416654B000D5E2D /* RideMultiSelectRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideMultiSelectRow.swift; sourceTree = "<group>"; };
 		91AD90F824166F360025C046 /* SelectRideModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRideModal.swift; sourceTree = "<group>"; };
@@ -101,10 +103,14 @@
 		91DC3C9223F3AFEC00FD70CC /* MethodometerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MethodometerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91DC3C9623F3AFEC00FD70CC /* MethodometerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodometerUITests.swift; sourceTree = "<group>"; };
 		91DC3C9823F3AFEC00FD70CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91F4FA722431886500323C7E /* DistanceMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceMarkerView.swift; sourceTree = "<group>"; };
+		91F4FA742431892800323C7E /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		91F4FA762432FB8E00323C7E /* UserSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingView.swift; sourceTree = "<group>"; };
+		91F4FA78243302E700323C7E /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		91F4FA7A2434537500323C7E /* UnitConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitConversion.swift; sourceTree = "<group>"; };
 		91F8A65C242823070055F958 /* WorkoutTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTableView.swift; sourceTree = "<group>"; };
 		91FA82172401A56B0026C123 /* NewWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWorkoutView.swift; sourceTree = "<group>"; };
 		91FA821B2401C4BF0026C123 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
-		91FA8225240303130026C123 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		91FA82282403CC340026C123 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		91FA822A240691320026C123 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		91FA82AA240B90220026C123 /* Workout+Ride.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workout+Ride.swift"; sourceTree = "<group>"; };
@@ -150,9 +156,9 @@
 		9100D8C423F9AA7500F38CDF /* Supporting Views */ = {
 			isa = PBXGroup;
 			children = (
+				91F4FA762432FB8E00323C7E /* UserSettingView.swift */,
 				91FA82172401A56B0026C123 /* NewWorkoutView.swift */,
 				9100D8C523F9AAC100F38CDF /* LiveWorkoutDetailView.swift */,
-				916762572425CD6700791C51 /* WorkoutRank.swift */,
 				91FA82B624111B960026C123 /* WorkoutDetailView.swift */,
 				91F8A65C242823070055F958 /* WorkoutTableView.swift */,
 				91FA82AC240BC5080026C123 /* WorkoutRowView.swift */,
@@ -167,6 +173,7 @@
 				9111676F24273062005AAA6C /* CadenceDataView.swift */,
 				9111676924271DEF005AAA6C /* DataSummaryTableView.swift */,
 				91CA70AA24233F8D00D2745A /* ViewModifiers+Utils.swift */,
+				91F4FA722431886500323C7E /* DistanceMarkerView.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -182,6 +189,9 @@
 				91FA822A240691320026C123 /* HealthKitManager.swift */,
 				91FA82AA240B90220026C123 /* Workout+Ride.swift */,
 				9112D2412413A26000B28461 /* Noise+Random.swift */,
+				91F4FA742431892800323C7E /* Helpers.swift */,
+				91F4FA78243302E700323C7E /* UserPreferences.swift */,
+				91F4FA7A2434537500323C7E /* UnitConversion.swift */,
 			);
 			path = "Models+Utils";
 			sourceTree = "<group>";
@@ -210,7 +220,6 @@
 		91DC3C7023F3AFE900FD70CC /* Methodometer */ = {
 			isa = PBXGroup;
 			children = (
-				91FA8224240303000026C123 /* Utilities */,
 				9117811023F66FCE009F9BBD /* Methodometer.entitlements */,
 				91DC3C7A23F3AFEC00FD70CC /* Assets.xcassets */,
 				91DC3C7F23F3AFEC00FD70CC /* LaunchScreen.storyboard */,
@@ -251,14 +260,6 @@
 				91DC3C9823F3AFEC00FD70CC /* Info.plist */,
 			);
 			path = MethodometerUITests;
-			sourceTree = "<group>";
-		};
-		91FA8224240303000026C123 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				91FA8225240303130026C123 /* Time.swift */,
-			);
-			path = Utilities;
 			sourceTree = "<group>";
 		};
 		91FA82272403CC340026C123 /* Frameworks */ = {
@@ -402,6 +403,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91F4FA7B2434537500323C7E /* UnitConversion.swift in Sources */,
 				9111676E24272C57005AAA6C /* PowerDataView.swift in Sources */,
 				9111676824271BDF005AAA6C /* PaceDataView.swift in Sources */,
 				91FA82AD240BC5080026C123 /* WorkoutRowView.swift in Sources */,
@@ -409,15 +411,14 @@
 				91FA82B724111B960026C123 /* WorkoutDetailView.swift in Sources */,
 				913628EB23FD0DCB00AB9338 /* BLEPeripheral.swift in Sources */,
 				913628ED23FD0F5100AB9338 /* KeiserBikeManager.swift in Sources */,
-				91FA8226240303130026C123 /* Time.swift in Sources */,
 				91FA82AB240B90220026C123 /* Workout+Ride.swift in Sources */,
 				9117810F23F66917009F9BBD /* KeiserBike.swift in Sources */,
 				9100D8C623F9AAC100F38CDF /* LiveWorkoutDetailView.swift in Sources */,
-				916762582425CD6700791C51 /* WorkoutRank.swift in Sources */,
 				91DC3C7223F3AFE900FD70CC /* AppDelegate.swift in Sources */,
 				9111676C24272B94005AAA6C /* DistanceDataView.swift in Sources */,
 				91CA70AB24233F8D00D2745A /* ViewModifiers+Utils.swift in Sources */,
 				9111677024273062005AAA6C /* CadenceDataView.swift in Sources */,
+				91F4FA732431886500323C7E /* DistanceMarkerView.swift in Sources */,
 				91AD90FB2417BDB80025C046 /* RideRowView.swift in Sources */,
 				9100D8C123F91EBD00F38CDF /* BLEData.swift in Sources */,
 				91FA82182401A56B0026C123 /* NewWorkoutView.swift in Sources */,
@@ -425,9 +426,12 @@
 				91FA821C2401C4BF0026C123 /* Session.swift in Sources */,
 				91D70AB824130F8D00EC065F /* Graphing.swift in Sources */,
 				91AD90F924166F360025C046 /* SelectRideModal.swift in Sources */,
+				91F4FA772432FB8E00323C7E /* UserSettingView.swift in Sources */,
+				91F4FA79243302E700323C7E /* UserPreferences.swift in Sources */,
 				91DC3C7423F3AFE900FD70CC /* SceneDelegate.swift in Sources */,
 				919FFAE22416654B000D5E2D /* RideMultiSelectRow.swift in Sources */,
 				9112D2422413A26000B28461 /* Noise+Random.swift in Sources */,
+				91F4FA752431892800323C7E /* Helpers.swift in Sources */,
 				91FA822B240691320026C123 /* HealthKitManager.swift in Sources */,
 				91DC3C7923F3AFE900FD70CC /* ContentView.swift in Sources */,
 				91DC3C7723F3AFE900FD70CC /* Methodometer.xcdatamodeld in Sources */,

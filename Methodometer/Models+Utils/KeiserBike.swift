@@ -176,7 +176,7 @@ open class KeiserBike: NSObject, Identifiable, ObservableObject {
         self.power = Int(Float(self.gear!) / 64.0 * Float(self.cadence!))
 
         self.duration = self.duration! + TimeInterval(1)
-        self.tripDistance = self.tripDistance! + Double.random(in: 0.001...0.009)
+        self.tripDistance = self.tripDistance! + Double.random(in: 0.008...0.03)
     }
     
     static func fakeRandomBike() -> KeiserBike {

@@ -76,21 +76,20 @@ struct WorkoutDetailView: View {
                     Divider()
                     HStack(alignment: .bottom) {
                         VStack(alignment: .leading) {
-                            Text("\(self.workout.myRide.totalDistance, specifier: "%02.2f") Miles")
-                                .modifier(H3(caps: true))
+                            DistanceText(d: self.workout.myRide.totalDistance)
                             Text("Distance")
                                 .modifier(Label())
                         }
                         VStack(alignment: .leading) {
                             Text("\(secondsToString(Int(self.workout.duration)))")
-                                .modifier(H3())
+                                .modifier(H4())
                             Text("Duration")
                                 .modifier(Label())
                         }
                         Spacer()
                         VStack(alignment: .trailing) {
                             Text("\(self.workout.myRide.totalCalories)")
-                                .modifier(H3())
+                                .modifier(H4())
                             Text("Calories")
                                 .modifier(Label())
                         }
@@ -98,14 +97,14 @@ struct WorkoutDetailView: View {
                     HStack(alignment: .top) {
                         VStack(alignment: .leading) {
                             Text("\(self.workout.myRide.avgCadence)/\(self.workout.myRide.maxCadence) RPM")
-                                .modifier(H3())
+                                .modifier(H4())
                             Text("AVG/Max Cadence")
                                 .modifier(Label())
                         }
                         Spacer()
                         VStack(alignment: .trailing) {
                             Text("\(self.workout.myRide.avgPower)/\(self.workout.myRide.maxPower) Watts")
-                                .modifier(H3())
+                                .modifier(H4())
                             Text("AVG/Max Power")
                                 .modifier(Label())
                         }
@@ -113,14 +112,13 @@ struct WorkoutDetailView: View {
                     HStack(alignment: .top) {
                         VStack(alignment: .leading) {
                             Text("\(self.workout.myRide.avgGear)/\(self.workout.myRide.maxGear)")
-                                .modifier(H3())
+                                .modifier(H4())
                             Text("AVG/Max Gear")
                                 .modifier(Label())
                         }
                         Spacer()
                         VStack(alignment: .trailing) {
-                            Text("\(self.workout.myRide.avgPace, specifier: "%02.2f")/\(self.workout.myRide.maxPace, specifier: "%02.2f")/m")
-                                .modifier(H3())
+                            PaceText(p: [self.workout.myRide.avgPace, self.workout.myRide.maxPace])
                             Text("AVG/Max Pace")
                                 .modifier(Label())
                         }
@@ -209,7 +207,7 @@ struct WorkoutDetailView: View {
 
 struct WorkoutDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let w = Workout.createDummyWorkout(duration: 1)
+        let w = Workout.createDummyWorkout(duration: 3600)
         return WorkoutDetailView(
             isDistancePB: true,
             selectedRides: SelectedRides(rides: w.topRides())
